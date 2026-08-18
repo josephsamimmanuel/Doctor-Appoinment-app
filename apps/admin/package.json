@@ -1,0 +1,17 @@
+{
+  "name": "admin",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "node --eval \"setInterval(()=>{}, 1e9)\"",
+    "lint": "node --eval \"console.log('lint stub')\"",
+    "test": "node --eval \"console.log('test stub')\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "^7.0.2"
+  }
+}
