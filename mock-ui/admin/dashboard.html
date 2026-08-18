@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="../css/variables.css"/><link rel="stylesheet" href="../css/base.css"/><link rel="stylesheet" href="../css/components.css"/>
+<style>
+:root{--sidebar-bg:#141428}.admin-layout{display:flex;min-height:100vh;background:var(--color-bg-primary)}.sidebar{top:0;background:var(--sidebar-bg);color:#fff}.sidebar .sidebar-nav-link{color:#9ca3af}.sidebar .sidebar-nav-link.active,.sidebar .sidebar-nav-link:hover{background:var(--color-bg-tertiary);color:var(--color-brand)}.layout-main{margin-left:260px;background:var(--color-bg-primary)}.top{position:sticky;top:0;z-index:9;background:var(--color-bg-secondary);border-bottom:1px solid var(--color-border);padding:14px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between}.search{max-width:340px}.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}.grid2{display:grid;grid-template-columns:2fr 1fr;gap:14px}@media(max-width:1023px){.layout-main{margin-left:0}.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.grid2{grid-template-columns:1fr}}
+</style></head><body>
+<div class="admin-layout">
+<aside class="sidebar"><div class="sidebar-header"><div class="text-white font-semibold">MediCare+ Admin Panel</div><button class="sidebar-toggle-btn">◀</button></div>
+<nav class="sidebar-nav" id="nav"></nav></aside><div class="sidebar-overlay"></div>
+<main class="layout-main"><header class="top"><div class="flex items-center gap-2"><button class="btn btn-ghost btn-sm" data-sidebar-toggle>☰</button><input class="form-input search" placeholder="Search records..."/></div><div class="flex items-center gap-2"><button class="theme-toggle">◐</button><button class="notification-bell">🔔<span class="notification-badge">4</span></button><div class="dropdown"><button data-dropdown class="btn btn-ghost btn-sm">Admin ▾</button><div class="dropdown-menu"><a class="dropdown-item" href="#">Profile</a><a class="dropdown-item" href="#">Settings</a><a class="dropdown-item danger" href="#">Logout</a></div></div></div></header>
+<div class="page-content page">
+<div class="page-header-top"><div><h1 class="page-header-title">Dashboard</h1></div><div class="flex gap-2"><input class="form-input" type="date"/><button class="btn btn-outline">Export</button></div></div>
+<section class="grid4 mt-4">
+<article class="stat-card"><div><div class="stat-card-label">Total Appointments</div><div class="stat-card-value">1,248</div></div></article>
+<article class="stat-card"><div><div class="stat-card-label">Today's Appointments</div><div class="stat-card-value">156</div></div></article>
+<article class="stat-card"><div><div class="stat-card-label">Total Patients</div><div class="stat-card-value">23,856</div></div></article>
+<article class="stat-card"><div><div class="stat-card-label">Total Revenue</div><div class="stat-card-value">₹24,58,900</div></div></article>
+</section>
+<section class="grid2 mt-4">
+<div class="chart-container"><div class="chart-header"><h3>Appointments Overview</h3></div><div class="chart-body"><div class="chart-placeholder pulse">Weekly appointments vs completed</div></div></div>
+<div class="chart-container"><div class="chart-header"><h3>By Department</h3></div><div class="chart-body"><div class="chart-placeholder">Cardiology 35% · Neurology 20% · Orthopedics 18% · Pediatrics 12% · Others 15%</div></div></div>
+</section>
+<section class="card mt-4"><div class="card-header"><h3 class="card-title">Recent Appointments</h3></div><div class="table-wrapper"><table class="table"><thead><tr><th data-sort>Patient</th><th>Doctor</th><th>Department</th><th>Date & Time</th><th>Status</th></tr></thead><tbody id="apptRows"></tbody></table></div></section>
+<section class="grid2 mt-4"><div class="card"><div class="card-header"><h3>System Notifications</h3></div><div class="card-body"><ul><li>New appointment booked</li><li>Payment received</li><li>New patient registered</li><li>Schedule updated</li></ul></div></div>
+<div class="card"><div class="card-header"><h3>Revenue Overview</h3></div><div class="card-body"><div>This month: <strong>₹24,58,900</strong></div><div class="chart-placeholder mt-3">Weekly revenue bars</div></div></div></section>
+<section class="grid2 mt-4"><div class="card"><div class="card-header"><h3>Payment Methods</h3></div><div class="card-body">UPI 45% · Credit/Debit 30% · Net Banking 15% · Wallet 10%</div></div>
+<div class="card"><div class="card-header"><h3>Top Doctors</h3></div><div class="card-body"><ol><li>Dr. Ramesh Iyer — 182</li><li>Dr. Priya Venkataraman — 164</li><li>Dr. Suresh Balaji — 152</li></ol></div></div></section>
+</div></main></div>
+<script src="../js/app.js"></script><script>
+const navItems=[['dashboard.html','📊 Dashboard'],['appointments.html','📅 Appointments'],['doctors.html','🩺 Doctors'],['patients.html','🧑 Patients'],['departments.html','🏥 Departments'],['schedules.html','🗓 Schedules'],['communication.html','💬 Messages'],['notifications.html','🔔 Notifications'],['finance.html','💳 Payments'],['finance.html','💱 Transactions'],['finance.html','🧾 Invoices'],['reports.html','📈 Reports'],['audit-logs.html','🧷 Audit Logs'],['users-roles.html','👥 Users & Roles'],['settings.html','⚙ Settings']];
+nav.innerHTML=navItems.map(([h,t])=>`<a class="sidebar-nav-link ${location.pathname.endsWith(h)?'active':''}" href="${h}"><span>${t}</span></a>`).join('');
+apptRows.innerHTML=[['Arjun Sharma','Dr. Ramesh Iyer','Cardiology','18 Aug, 10:30','Confirmed'],['Kavitha Murugan','Dr. Priya','Neurology','18 Aug, 11:30','Pending'],['Rajan Patel','Dr. Balaji','Orthopedics','18 Aug, 1:30','In-Progress'],['Sneha Krishnan','Dr. Ananya','Pediatrics','18 Aug, 2:00','Completed'],['Meera Nair','Dr. Karthik','General','18 Aug, 3:15','Cancelled']].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td><span class="badge" data-status="${r[4]}">${r[4]}</span></td></tr>`).join('');
+document.querySelectorAll('[data-status]').forEach(b=>{const s=b.dataset.status.toLowerCase();b.classList.add(s.includes('confirm')||s.includes('complete')?'badge-success':s.includes('cancel')?'badge-error':s.includes('progress')?'badge-info':'badge-warning');});
+document.querySelector('[data-sidebar-toggle]').onclick=()=>document.querySelector('.sidebar').classList.toggle('open');document.querySelector('.sidebar-overlay').onclick=()=>document.querySelector('.sidebar').classList.remove('open');
+document.querySelector('.sidebar-toggle-btn').onclick=()=>{document.querySelector('.sidebar').classList.toggle('collapsed');document.querySelector('.layout-main').classList.toggle('sidebar-collapsed');};
+document.querySelectorAll('form').forEach(f=>f.onsubmit=e=>{e.preventDefault();Toast.success('Form submitted')});document.querySelectorAll('th[data-sort]').forEach(h=>h.onclick=()=>Toast.info('Sorting simulated'));
+</script></body></html>
