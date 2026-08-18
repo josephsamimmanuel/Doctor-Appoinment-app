@@ -17,7 +17,7 @@ corepack prepare pnpm@11.22.0 --activate
 ```
 apps/
   server/    # Backend API (Express 5 + TypeScript)
-  patient/   # Patient-facing SPA (Vite + React — M0-3)
+  patient/   # Patient-facing SPA (Vite 8 + React 19)
   admin/     # Admin dashboard (Vite + React — M0-4)
 packages/
   shared/              # Shared types, constants, validators (M0-5)
@@ -55,6 +55,22 @@ pnpm --filter admin dev
 pnpm --filter @repo/shared build
 ```
 
+## Patient app
+
+Start the patient SPA on port 5173 (default):
+
+```bash
+pnpm --filter patient dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser. Unknown routes render a 404 page.
+
+Copy `apps/patient/.env.example` to `apps/patient/.env` (or set at the monorepo root if you prefer) and adjust:
+
+```bash
+VITE_API_BASE_URL=http://localhost:5000/api/v1
+```
+
 ## Backend API (server)
 
 Start the Express API on port 5000 (default):
@@ -90,4 +106,4 @@ Copy [`.env.example`](.env.example) to `.env` and adjust values for local develo
 
 ## Milestones
 
-Development follows the roadmap in [`docs/MILESTONES.md`](docs/MILESTONES.md). M0-1 sets up the Turborepo monorepo skeleton; M0-2 adds the Express backend server skeleton.
+Development follows the roadmap in [`docs/MILESTONES.md`](docs/MILESTONES.md). M0-1 sets up the Turborepo monorepo skeleton; M0-2 adds the Express backend server skeleton; M0-3 adds the patient Vite + React SPA skeleton.
