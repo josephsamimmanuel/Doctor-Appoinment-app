@@ -4,6 +4,7 @@ packages:
 allowBuilds:
   esbuild: true
   mongodb-memory-server: true
+  msw: true
 minimumReleaseAgeExclude:
   - '@vitest/coverage-v8@4.1.11'
   - '@vitest/expect@4.1.11'
