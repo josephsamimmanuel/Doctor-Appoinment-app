@@ -41,7 +41,7 @@ pnpm dev
 # Type-check all packages
 pnpm typecheck
 
-# Lint and test (stub scripts in M0-1)
+# Lint (stub scripts until M2-1) and test (real suites in @repo/shared only)
 pnpm lint
 pnpm test
 ```
@@ -100,10 +100,29 @@ Expected response shape:
 }
 ```
 
+## Shared package
+
+`@repo/shared` holds the domain contracts used by the API and both frontends. Import from a subpath rather than the root barrel so you only pull in what you need:
+
+```ts
+import { HTTP_STATUS, UserRole } from '@repo/shared/constants';
+import type { IAppointment, IUser } from '@repo/shared/types';
+import { registerSchema } from '@repo/shared/validators';
+```
+
+`@repo/shared/validators` depends on Zod, so import it only where validation actually runs. The package must be built before the apps can resolve its types — `pnpm build` and `pnpm typecheck` handle that ordering, or build it directly:
+
+```bash
+pnpm --filter @repo/shared build
+pnpm --filter @repo/shared test
+```
+
+Domain interfaces describe JSON on the wire: identifiers and dates are `string`, so the package stays free of Mongoose types and remains safe to bundle into the browser apps.
+
 ## Environment variables
 
 Copy [`.env.example`](.env.example) to `.env` and adjust values for local development. Full environment documentation will be added in M0-6.
 
 ## Milestones
 
-Development follows the roadmap in [`docs/MILESTONES.md`](docs/MILESTONES.md). M0-1 sets up the Turborepo monorepo skeleton; M0-2 adds the Express backend server skeleton; M0-3 adds the patient Vite + React SPA skeleton.
+Development follows the roadmap in [`docs/MILESTONES.md`](docs/MILESTONES.md). M0-1 sets up the Turborepo monorepo skeleton; M0-2 adds the Express backend server skeleton; M0-3 adds the patient Vite + React SPA skeleton; M0-4 adds the admin dashboard skeleton; M0-5 adds the shared types, constants, and Zod validators.
