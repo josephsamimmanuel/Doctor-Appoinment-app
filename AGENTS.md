@@ -48,9 +48,10 @@ pnpm --filter admin dev        # Vite dev server on port 5174
 pnpm --filter patient preview  # vite preview (after build)
 pnpm --filter admin preview    # vite preview (after build)
 pnpm --filter @repo/shared build
+pnpm --filter e2e test           # Playwright E2E (auto-starts patient + admin dev servers)
 ```
 
-`@repo/shared` must be built before apps import it, because they consume its emitted `dist/*.d.ts`. [`turbo.json`](turbo.json) encodes this: `build` and `typecheck` declare `dependsOn: ["^build"]`, and `test` declares `dependsOn: ["build"]` so a package's own output exists before its tests run.
+`@repo/shared` must be built before apps import it, because they consume its emitted `dist/*.d.ts`. [`turbo.json`](turbo.json) encodes this: `build` and `typecheck` declare `dependsOn: ["^build"]`, and `test` declares `dependsOn: ["build"]` so a package's own output exists before its tests run. The `e2e` package overrides `test` with `dependsOn: []` and `cache: false` in [`e2e/turbo.json`](e2e/turbo.json) because it runs against Vite dev servers, not `dist/`.
 
 ## Structure
 
@@ -75,6 +76,7 @@ packages/
     validators/     auth.schema.ts, appointment.schema.ts (Zod 4)
     __tests__/      node:test suites, run from dist/
   typescript-config/ base.json, react-app.json
+e2e/                Playwright config, patient/ + admin/ specs, fixtures/, helpers/
 docs/               SRS + milestone roadmap
 mock-ui/            Static HTML mockups — reference only, not in build
 ```
@@ -105,11 +107,12 @@ Observed today (M0-4):
 | Area | Runner (today) | Notes |
 |:---|:---|:---|
 | `@repo/shared` | `node:test` + `node:assert/strict` | Sources in `src/__tests__/`; `pnpm test` runs the compiled copies in `dist/__tests__/` |
-| `server`, `patient`, `admin` | Stub (`node --eval`) | No real test runner configured |
+| `e2e` | Playwright (`@playwright/test`) | Smoke specs in `patient/` and `admin/`; `webServer` starts both Vite apps via `pnpm --filter` (plain `pnpm` in CI, `corepack pnpm` locally); run via `pnpm --filter e2e test` |
+| `server`, `patient`, `admin` | Stub (`node --eval`) | Vitest planned in M1-1 / M1-2 |
 
-Planned in **M1** (not yet present): Vitest + Supertest + MongoDB Memory Server (`server`), Vitest + React Testing Library + MSW (`patient`, `admin`), Playwright E2E. Coverage thresholds defined in milestones (e.g. 70% statements server, 65% frontend).
+**M1 in progress:** Playwright E2E (M1-3) is configured. Vitest + Supertest + MongoDB Memory Server (`server`), Vitest + React Testing Library + MSW (`patient`, `admin`), and test factories (M1-4) are still planned. Coverage thresholds are defined in milestones (e.g. 70% statements server, 65% frontend).
 
-Until M1 lands: `pnpm test` only verifies stub scripts run. Add real tests when implementing behavior, following the M1 issue specs.
+Root `pnpm test` runs **all** workspace `test` scripts via Turborepo, including Playwright E2E. Use `pnpm --filter <package> test` for unit tests only. CI (M2-3) will split unit and E2E into separate jobs.
 
 ## Security & secrets
 

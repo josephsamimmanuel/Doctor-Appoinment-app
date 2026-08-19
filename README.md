@@ -24,6 +24,7 @@ apps/
 packages/
   shared/              # Shared types, constants, validators (M0-5)
   typescript-config/   # Shared TypeScript configuration
+e2e/                   # Playwright E2E tests (M1-3)
 docs/                  # SRS and milestone roadmap
 mock-ui/               # Static HTML mockups (reference only, not part of the build)
 ```
@@ -43,10 +44,12 @@ pnpm dev
 # Type-check all packages
 pnpm typecheck
 
-# Lint (stub scripts until M2-1) and test (real suites in @repo/shared only)
+# Lint (stub scripts until M2-1) and test (unit + E2E via Turborepo)
 pnpm lint
 pnpm test
 ```
+
+Root `pnpm test` runs **all** workspace test tasks, including Playwright E2E in `e2e/` (starts patient and admin dev servers). For unit tests only, use filters such as `pnpm --filter server test` or `pnpm --filter patient test`. CI (M2-3) runs unit tests and E2E in separate jobs.
 
 ## Run a single workspace
 
@@ -124,6 +127,32 @@ pnpm --filter @repo/shared test
 ```
 
 Domain interfaces describe JSON on the wire: identifiers and dates are `string`, so the package stays free of Mongoose types and remains safe to bundle into the browser apps.
+
+## E2E tests (Playwright)
+
+Smoke tests live in the root `e2e/` workspace. Playwright auto-starts the patient app (5173) and admin app (5174) before tests run.
+
+First-time setup (browser binaries):
+
+```bash
+pnpm --filter e2e exec playwright install
+```
+
+Run E2E only:
+
+```bash
+pnpm --filter e2e test
+pnpm --filter e2e test:ui       # interactive UI mode
+pnpm --filter e2e test:report   # open last HTML report
+```
+
+Chromium only (faster during development):
+
+```bash
+pnpm --filter e2e exec playwright test --project=chromium
+```
+
+Requires `pnpm` on your PATH (enable via `corepack enable` in Prerequisites), or use `corepack pnpm` locally when Playwright spawns dev servers. CI uses plain `pnpm` via `pnpm/action-setup`. Reports and failure artifacts are written under `e2e/playwright-report/` and `e2e/test-results/` (gitignored).
 
 ## Environment variables
 
