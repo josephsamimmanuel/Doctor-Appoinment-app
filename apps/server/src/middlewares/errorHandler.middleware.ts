@@ -1,3 +1,4 @@
+import { HTTP_STATUS } from '@repo/shared/constants';
 import type { NextFunction, Request, Response } from 'express';
 import { env } from '../config/env.js';
 import { ApiError } from '../utils/apiError.js';
@@ -5,7 +6,7 @@ import { ApiError } from '../utils/apiError.js';
 export function notFoundHandler(req: Request, _res: Response, next: NextFunction): void {
   next(
     new ApiError(
-      404,
+      HTTP_STATUS.NOT_FOUND,
       `Route not found: ${req.method} ${req.originalUrl}`,
     ),
   );
@@ -25,7 +26,7 @@ export function errorHandler(
   console.error('[errorHandler]', err);
 
   const apiError = new ApiError(
-    500,
+    HTTP_STATUS.INTERNAL_SERVER_ERROR,
     'Internal server error',
     undefined,
     false,

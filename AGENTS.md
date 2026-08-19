@@ -8,11 +8,11 @@ Doctor Appointment Booking System — a pnpm + Turborepo monorepo for a patient 
 
 | Package | Role |
 |:---|:---|
-| `apps/server` | Backend API (Express planned in M0-2; skeleton only) |
-| `apps/patient` | Patient SPA (Vite + React planned in M0-3; skeleton only) |
-| `apps/admin` | Admin dashboard (Vite + React planned in M0-4; skeleton only) |
-| `packages/shared` (`@repo/shared`) | Shared types, constants, validators (M0-5) |
-| `packages/typescript-config` (`@repo/typescript-config`) | Shared TypeScript base config |
+| `apps/server` | Express 5.2 API — health endpoint, middleware stack, MongoDB/Redis connections, standardized `ApiResponse`/`ApiError` (M0-2, M0-6) |
+| `apps/patient` | Patient SPA — Vite 8 + React 19, Redux Toolkit + RTK Query, React Router 8, port 5173 (M0-3) |
+| `apps/admin` | Admin dashboard — same stack as patient, sidebar layout, port 5174 (M0-4) |
+| `packages/shared` (`@repo/shared`) | Shared domain types, constants, and Zod validators consumed by all three apps (M0-5) |
+| `packages/typescript-config` (`@repo/typescript-config`) | Shared TypeScript base + React app configs |
 
 **Runtime:** Node.js 24 — pinned in [`.nvmrc`](.nvmrc), `engines.node >= 24` in root [`package.json`](package.json).
 
@@ -23,7 +23,7 @@ corepack enable
 corepack prepare pnpm@11.22.0 --activate
 ```
 
-**Source of truth:** [`docs/SRS_Doctor_Appointment_App.md`](docs/SRS_Doctor_Appointment_App.md) (requirements) and [`docs/MILESTONES.md`](docs/MILESTONES.md) (implementation order and acceptance criteria). Prefer these over inventing scope. Current milestone: **M0** (scaffolding).
+**Source of truth:** [`docs/SRS_Doctor_Appointment_App.md`](docs/SRS_Doctor_Appointment_App.md) (requirements) and [`docs/MILESTONES.md`](docs/MILESTONES.md) (implementation order and acceptance criteria). Prefer these over inventing scope. Current milestone: **M0** (M0-1–M0-6 complete after DB/Redis wiring).
 
 ## Commands
 
@@ -41,47 +41,71 @@ pnpm test             # turbo run test (stub scripts in M0-1)
 Single-workspace (from [`README.md`](README.md)):
 
 ```bash
-pnpm --filter server dev
-pnpm --filter patient dev
-pnpm --filter admin dev
+pnpm --filter server dev       # Express API on port 5000 (tsx watch)
+pnpm --filter server start     # node dist/server.js (after build)
+pnpm --filter patient dev      # Vite dev server on port 5173
+pnpm --filter admin dev        # Vite dev server on port 5174
+pnpm --filter patient preview  # vite preview (after build)
+pnpm --filter admin preview    # vite preview (after build)
 pnpm --filter @repo/shared build
 ```
 
-`@repo/shared` must be built before apps import it; Turborepo `build`/`typecheck`/`test` tasks already declare `dependsOn: ["^build"]` or `["^typecheck"]` in [`turbo.json`](turbo.json).
+`@repo/shared` must be built before apps import it, because they consume its emitted `dist/*.d.ts`. [`turbo.json`](turbo.json) encodes this: `build` and `typecheck` declare `dependsOn: ["^build"]`, and `test` declares `dependsOn: ["build"]` so a package's own output exists before its tests run.
 
 ## Structure
 
 ```
 apps/
-  server/src/          # Backend entry (stub)
-  patient/src/         # Patient app entry (stub)
-  admin/src/           # Admin app entry (stub)
+  server/src/
+    config/         env.ts, db.ts (Mongoose), redis.ts (ioredis)
+    controllers/    healthCheck.controller.ts
+    routes/         index.ts — mounted at /api/v1
+    middlewares/    cors, errorHandler, rateLimit
+    utils/          apiResponse.ts, apiError.ts
+  patient/src/
+    app/            store.ts, baseApi.ts, hooks.ts (RTK Query + typed hooks)
+    components/     layout/, ui/, features/ (placeholders)
+    pages/          Home/, NotFound/
+    styles/         index.css (design tokens from mock-ui)
+  admin/src/        same layout as patient; AdminLayout with sidebar + top bar
 packages/
-  shared/src/          # Shared exports (@repo/shared)
-  typescript-config/   # base.json — strict TS defaults
-docs/                  # SRS + milestone roadmap
-mock-ui/               # Static HTML mockups — reference only, not in build
+  shared/src/
+    types/          user, doctor, appointment, payment, hospital, review, common
+    constants/      roles, specialties, appointmentStatus, httpStatus
+    validators/     auth.schema.ts, appointment.schema.ts (Zod 4)
+    __tests__/      node:test suites, run from dist/
+  typescript-config/ base.json, react-app.json
+docs/               SRS + milestone roadmap
+mock-ui/            Static HTML mockups — reference only, not in build
 ```
 
-**Import shared code:** `@repo/shared` (workspace package). Example export today: `PACKAGE_NAME` from [`packages/shared/src/index.ts`](packages/shared/src/index.ts).
+**Import shared code:** prefer the subpath exports over the root barrel — `@repo/shared/types`, `@repo/shared/constants`, `@repo/shared/validators` (the root `@repo/shared` re-exports all three). Note that `@repo/shared/validators` pulls in Zod, so import it only where validation actually runs.
 
-**Extend TypeScript:** each app/package `tsconfig.json` extends `@repo/typescript-config/base.json`.
+Canonical homes, to avoid duplicate definitions: `UserRole` and `AppointmentStatus` live in `constants/` (each is both a value and a type) and are only referenced from `types/`. Domain interfaces describe JSON on the wire — IDs and dates are `string`, and shared code must never import `mongoose`, since both browser apps consume this package.
+
+**Extend TypeScript:** server and `@repo/shared` extend `@repo/typescript-config/base.json`; patient and admin extend `@repo/typescript-config/react-app.json`.
 
 ## Code style
 
-Observed today (M0-1 skeleton):
+Observed today (M0-4):
 
 - **Language:** TypeScript 7 (`typescript` ^7.0.2), ESM (`"type": "module"` in app manifests).
-- **Strictness:** `strict: true`, `noUncheckedIndexedAccess: true`, `module`/`moduleResolution`: `NodeNext`, target `ES2022` — see [`packages/typescript-config/base.json`](packages/typescript-config/base.json).
-- **Layout:** `src/` → `dist/` via `tsc`; no path aliases configured yet.
+- **Strictness:** `strict: true`, `noUncheckedIndexedAccess: true` — see [`packages/typescript-config/base.json`](packages/typescript-config/base.json). React apps add `verbatimModuleSyntax: true` via [`react-app.json`](packages/typescript-config/react-app.json).
+- **Imports:** relative imports use `.js` extensions (NodeNext / bundler resolution). No `any` in current app source.
+- **Backend:** `src/` → `dist/` via `tsc`; API prefix `/api/v1`; responses use `ApiResponse`/`ApiError` classes.
+- **Frontend:** Vite build (`tsc --noEmit && vite build`); Redux store with RTK Query `baseApi` (`VITE_API_BASE_URL`, default `http://localhost:5000/api/v1`); typed hooks via `useDispatch.withTypes` / `useSelector.withTypes`.
+- **Shared package:** no TypeScript `enum` — use an `as const` object plus a same-named union type, so each name works as both a value and a type. Validation uses Zod 4 (`z.email()`, `z.enum(READONLY_ARRAY)`), with enum arrays derived from the shared constants rather than re-typed.
+- **Styling:** plain CSS with custom-property design tokens ported from `mock-ui/css/variables.css` (Inter via Google Fonts). No CSS-in-JS or component library yet.
+- **Layout:** feature folders under `src/features/` and `src/components/features/` are placeholders (`.gitkeep` only).
 - **Lint/format:** not configured yet (planned in M2-1: ESLint 9 flat config, Prettier, Husky + lint-staged per [`docs/MILESTONES.md`](docs/MILESTONES.md)).
-- **Scope:** match existing minimal stubs; do not add frameworks or features ahead of the milestone that introduces them.
+- **Scope:** match existing patterns; do not add dependencies or features ahead of the milestone that introduces them.
 
 ## Testing
 
 | Area | Runner (today) | Notes |
 |:---|:---|:---|
-| All packages | Stub (`console.log('test stub')`) | No real test runner configured |
+| `@repo/shared` | `node:test` + `node:assert/strict` | Sources in `src/__tests__/`; `pnpm test` runs the compiled copies in `dist/__tests__/` |
+| `server`, `patient`, `admin` | Stub (`node --eval`) | No real test runner configured |
 
 Planned in **M1** (not yet present): Vitest + Supertest + MongoDB Memory Server (`server`), Vitest + React Testing Library + MSW (`patient`, `admin`), Playwright E2E. Coverage thresholds defined in milestones (e.g. 70% statements server, 65% frontend).
 
@@ -91,7 +115,7 @@ Until M1 lands: `pnpm test` only verifies stub scripts run. Add real tests when 
 
 - Never commit [`.env`](.env) or any `.env.*` except [`.env.example`](.env.example) / `*.example` variants ([`.gitignore`](.gitignore)).
 - Do not log or commit: `MONGODB_URI`, `REDIS_URL`, API keys, JWT secrets, payment keys, certificates (`*.pem`, `*.key`, etc.).
-- Copy `.env.example` → `.env` for local dev. Full env docs arrive in M0-6.
+- Copy `.env.example` → `.env` at repo root for server vars (`PORT`, `CORS_ORIGINS`, `MONGODB_URI`, `REDIS_URL`, etc.). Frontend apps use `apps/patient/.env.example` and `apps/admin/.env.example` for `VITE_*` vars.
 - Medical uploads and file storage will use direct object-storage access (Cloudinary per SRS) — do not proxy file bytes through the API when the spec says otherwise.
 
 ## Git & PRs
@@ -120,6 +144,7 @@ No Husky hooks or CI workflows exist yet. Do not force-push `main`/`develop`.
 - Use pnpm workspaces and Turborepo tasks; run `pnpm typecheck` after TypeScript changes.
 - Build `@repo/shared` before importing it in apps (or rely on `pnpm build` at root).
 - Treat `mock-ui/` as UI reference only — do not wire it into the monorepo build.
+- Use existing API response/error utilities on the server; extend RTK Query via `baseApi` inject endpoints on the frontend.
 
 **Ask first**
 
