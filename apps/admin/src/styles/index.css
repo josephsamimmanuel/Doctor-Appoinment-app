@@ -1,0 +1,455 @@
+/* ================================================
+   Design Tokens - MediCare+ Admin Dashboard
+   ================================================ */
+
+:root {
+  /* ── Brand Colors ── */
+  --color-primary-50: rgba(139, 92, 246, 0.1);
+  --color-primary-100: rgba(139, 92, 246, 0.18);
+  --color-primary-200: rgba(139, 92, 246, 0.28);
+  --color-primary-300: #a78bfa;
+  --color-primary-400: #a78bfa;
+  --color-primary-500: #8b5cf6;
+  --color-primary-600: #7c3aed;
+  --color-primary-700: #6d28d9;
+  --color-primary-800: #4c1d95;
+  --color-primary-900: #0b0b1a;
+
+  --color-secondary-50: rgba(236, 72, 153, 0.1);
+  --color-secondary-100: rgba(236, 72, 153, 0.18);
+  --color-secondary-200: rgba(236, 72, 153, 0.28);
+  --color-secondary-300: #f472b6;
+  --color-secondary-400: #f472b6;
+  --color-secondary-500: #ec4899;
+  --color-secondary-600: #db2777;
+  --color-secondary-700: #be185d;
+
+  /* ── Neutral Grays ── */
+  --color-gray-50: #ffffff;
+  --color-gray-100: #f9fafb;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* ── Dark Theme Defaults (Admin Dashboard is Dark mode by design) ── */
+  --color-bg-primary: #0b0b1a;
+  --color-bg-secondary: #141428;
+  --color-bg-tertiary: #1c1c38;
+  --color-bg-inverse: #ffffff;
+
+  --sidebar-bg: #141428;
+  --color-surface: #141428;
+  --color-surface-raised: #1c1c38;
+  --color-surface-overlay: rgba(11, 11, 26, 0.95);
+
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.15);
+  --color-border-focus: #8b5cf6;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9ca3af;
+  --color-text-tertiary: rgba(255, 255, 255, 0.5);
+  --color-text-inverse: #0b0b1a;
+  --color-text-link: #8b5cf6;
+  --color-text-link-hover: #ec4899;
+
+  --color-brand: #8b5cf6;
+  --color-brand-dark: #7c3aed;
+  --color-brand-light: rgba(139, 92, 246, 0.12);
+
+  /* ── Typography (Inter) ── */
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* ── Spacing ── */
+  --space-0: 0;
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.8), 0 1px 2px rgba(0,0,0,0.6);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.8), 0 2px 4px -1px rgba(0,0,0,0.6);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.8), 0 4px 6px -2px rgba(0,0,0,0.6);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+  --transition-normal: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --navbar-height: 64px;
+  --sidebar-width: 260px;
+}
+
+/* ================================================
+   Base Resets
+   ================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input, button, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--color-text-link);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-text-link-hover);
+}
+
+/* ================================================
+   Admin Layout Structure (Grid Layout)
+   ================================================ */
+.admin-layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+}
+
+.admin-layout__body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.admin-layout__main {
+  flex: 1;
+  background-color: var(--color-bg-primary);
+  padding: var(--space-6);
+}
+
+/* ================================================
+   Sidebar Layout
+   ================================================ */
+.sidebar {
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.sidebar__header {
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sidebar__brand {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-brand);
+  letter-spacing: -0.025em;
+}
+
+.sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  text-decoration: none;
+}
+
+.sidebar__link:hover {
+  color: var(--color-brand);
+  background-color: var(--color-bg-tertiary);
+  text-decoration: none;
+}
+
+.sidebar__link--active {
+  color: var(--color-brand) !important;
+  background-color: var(--color-brand-light) !important;
+  font-weight: var(--font-semibold);
+}
+
+/* ================================================
+   TopBar Header
+   ================================================ */
+.topbar {
+  height: var(--navbar-height);
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar__search {
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  width: 280px;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.topbar__search:focus {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 2px var(--color-brand-light);
+}
+
+.topbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.topbar__icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--text-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  transition: var(--transition-fast);
+}
+
+.topbar__icon-btn:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.topbar__user {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.topbar__user:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+/* ================================================
+   Dashboard Page Components
+   ================================================ */
+.page {
+  animation: fadeIn 300ms ease-out;
+}
+
+.page-header {
+  margin-bottom: var(--space-6);
+}
+
+.page-header__title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.stat-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary-300);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-card__label {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+.stat-card__value {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-4);
+}
+
+.chart-placeholder {
+  background-color: var(--color-bg-secondary);
+  border: 2px dashed var(--color-border-strong);
+  border-radius: var(--radius-xl);
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================================================
+   NotFound Page (Simple clean page layout)
+   ================================================ */
+.page--not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.page--not-found h1 {
+  font-size: var(--text-5xl);
+  color: var(--color-secondary-500);
+  margin-bottom: var(--space-2);
+}
+
+.page__subtitle {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+.page__link {
+  font-weight: var(--font-semibold);
+  background-color: var(--color-brand);
+  color: var(--color-text-inverse);
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-full);
+  transition: var(--transition-fast);
+}
+
+.page__link:hover {
+  background-color: var(--color-brand-dark);
+  text-decoration: none;
+}
+
+/* ================================================
+   Animations
+   ================================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================================
+   Responsive Breakpoints
+   ================================================ */
+@media (max-width: 1024px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    display: none; /* Collapsed view or custom drawer toggles could be added here in future */
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
