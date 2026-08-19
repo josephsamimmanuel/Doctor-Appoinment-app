@@ -8,7 +8,9 @@
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
     "lint": "node --eval \"console.log('lint stub')\"",
-    "test": "node --eval \"console.log('test stub')\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -23,12 +25,18 @@
     "morgan": "^1.11.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "10.6.0",
     "@repo/typescript-config": "workspace:*",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/morgan": "^1.9.10",
     "@types/node": "^26.2.0",
+    "@types/supertest": "7.2.1",
+    "@vitest/coverage-v8": "4.1.11",
+    "mongodb-memory-server": "11.2.0",
+    "supertest": "7.2.2",
     "tsx": "^4.23.12",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "4.1.11"
   }
 }
