@@ -6,6 +6,8 @@ A monorepo for the Doctor Appointment Booking System — patient app, admin dash
 
 - **Node.js** 24 (see [`.nvmrc`](.nvmrc))
 - **pnpm** 11.22.0 (enforced via `packageManager` in root `package.json`)
+- **MongoDB** — local instance or Atlas URI (required by the server)
+- **Redis** — local instance or hosted URL (required by the server)
 
 ```bash
 corepack enable
@@ -73,6 +75,8 @@ VITE_API_BASE_URL=http://localhost:5000/api/v1
 
 ## Backend API (server)
 
+Ensure MongoDB and Redis are running, then copy [`.env.example`](.env.example) to `.env` at the repo root and set `MONGODB_URI` and `REDIS_URL`.
+
 Start the Express API on port 5000 (default):
 
 ```bash
@@ -95,7 +99,9 @@ Expected response shape:
   "data": {
     "status": "ok",
     "timestamp": "2026-08-18T00:00:00.000Z",
-    "uptime": 1.23
+    "uptime": 1.23,
+    "db": "connected",
+    "redis": "connected"
   }
 }
 ```
@@ -121,8 +127,18 @@ Domain interfaces describe JSON on the wire: identifiers and dates are `string`,
 
 ## Environment variables
 
-Copy [`.env.example`](.env.example) to `.env` and adjust values for local development. Full environment documentation will be added in M0-6.
+Copy [`.env.example`](.env.example) to `.env` at the repo root and adjust values for local development.
+
+| Variable | Required | Description |
+|:---|:---|:---|
+| `NODE_ENV` | No | `development` (default), `production`, or `test` |
+| `PORT` | No | HTTP port for the API (default `5000`) |
+| `CORS_ORIGINS` | No | Comma-separated allowed origins (defaults to patient and admin dev URLs) |
+| `MONGODB_URI` | Yes | MongoDB connection string for Mongoose |
+| `REDIS_URL` | Yes | Redis connection URL for ioredis |
+
+Frontend apps use `apps/patient/.env.example` and `apps/admin/.env.example` for `VITE_*` variables.
 
 ## Milestones
 
-Development follows the roadmap in [`docs/MILESTONES.md`](docs/MILESTONES.md). M0-1 sets up the Turborepo monorepo skeleton; M0-2 adds the Express backend server skeleton; M0-3 adds the patient Vite + React SPA skeleton; M0-4 adds the admin dashboard skeleton; M0-5 adds the shared types, constants, and Zod validators.
+Development follows the roadmap in [`docs/MILESTONES.md`](docs/MILESTONES.md). M0-1 sets up the Turborepo monorepo skeleton; M0-2 adds the Express backend server skeleton; M0-3 adds the patient Vite + React SPA skeleton; M0-4 adds the admin dashboard skeleton; M0-5 adds the shared types, constants, and Zod validators; M0-6 adds MongoDB and Redis connection configuration.
