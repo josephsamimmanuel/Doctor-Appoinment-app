@@ -14,6 +14,16 @@ const DEFAULT_CORS_ORIGINS = [
   'http://localhost:5174',
 ];
 
+function requireEnv(key: string): string {
+  const value = process.env[key];
+
+  if (value === undefined || value.trim() === '') {
+    throw new Error(`Missing required environment variable: ${key}`);
+  }
+
+  return value.trim();
+}
+
 function parsePort(value: string | undefined): number {
   const port = Number.parseInt(value ?? '5000', 10);
 
@@ -41,5 +51,7 @@ export const env = {
   nodeEnv,
   port: parsePort(process.env.PORT),
   corsOrigins: parseCorsOrigins(process.env.CORS_ORIGINS),
+  mongodbUri: requireEnv('MONGODB_URI'),
+  redisUrl: requireEnv('REDIS_URL'),
   isProduction: nodeEnv === 'production',
 } as const;

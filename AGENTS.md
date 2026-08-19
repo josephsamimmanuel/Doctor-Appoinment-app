@@ -8,7 +8,7 @@ Doctor Appointment Booking System — a pnpm + Turborepo monorepo for a patient 
 
 | Package | Role |
 |:---|:---|
-| `apps/server` | Express 5.2 API — health endpoint, middleware stack, standardized `ApiResponse`/`ApiError` (M0-2) |
+| `apps/server` | Express 5.2 API — health endpoint, middleware stack, MongoDB/Redis connections, standardized `ApiResponse`/`ApiError` (M0-2, M0-6) |
 | `apps/patient` | Patient SPA — Vite 8 + React 19, Redux Toolkit + RTK Query, React Router 8, port 5173 (M0-3) |
 | `apps/admin` | Admin dashboard — same stack as patient, sidebar layout, port 5174 (M0-4) |
 | `packages/shared` (`@repo/shared`) | Shared domain types, constants, and Zod validators consumed by all three apps (M0-5) |
@@ -23,7 +23,7 @@ corepack enable
 corepack prepare pnpm@11.22.0 --activate
 ```
 
-**Source of truth:** [`docs/SRS_Doctor_Appointment_App.md`](docs/SRS_Doctor_Appointment_App.md) (requirements) and [`docs/MILESTONES.md`](docs/MILESTONES.md) (implementation order and acceptance criteria). Prefer these over inventing scope. Current milestone: **M0** (M0-1–M0-5 done; M0-6 DB/Redis still pending).
+**Source of truth:** [`docs/SRS_Doctor_Appointment_App.md`](docs/SRS_Doctor_Appointment_App.md) (requirements) and [`docs/MILESTONES.md`](docs/MILESTONES.md) (implementation order and acceptance criteria). Prefer these over inventing scope. Current milestone: **M0** (M0-1–M0-6 complete after DB/Redis wiring).
 
 ## Commands
 
@@ -57,7 +57,7 @@ pnpm --filter @repo/shared build
 ```
 apps/
   server/src/
-    config/         env.ts (loads repo-root .env, then server .env)
+    config/         env.ts, db.ts (Mongoose), redis.ts (ioredis)
     controllers/    healthCheck.controller.ts
     routes/         index.ts — mounted at /api/v1
     middlewares/    cors, errorHandler, rateLimit
@@ -115,7 +115,7 @@ Until M1 lands: `pnpm test` only verifies stub scripts run. Add real tests when 
 
 - Never commit [`.env`](.env) or any `.env.*` except [`.env.example`](.env.example) / `*.example` variants ([`.gitignore`](.gitignore)).
 - Do not log or commit: `MONGODB_URI`, `REDIS_URL`, API keys, JWT secrets, payment keys, certificates (`*.pem`, `*.key`, etc.).
-- Copy `.env.example` → `.env` at repo root for server vars (`PORT`, `CORS_ORIGINS`, etc.). Frontend apps use `apps/patient/.env.example` and `apps/admin/.env.example` for `VITE_*` vars. Full env docs arrive in M0-6.
+- Copy `.env.example` → `.env` at repo root for server vars (`PORT`, `CORS_ORIGINS`, `MONGODB_URI`, `REDIS_URL`, etc.). Frontend apps use `apps/patient/.env.example` and `apps/admin/.env.example` for `VITE_*` vars.
 - Medical uploads and file storage will use direct object-storage access (Cloudinary per SRS) — do not proxy file bytes through the API when the spec says otherwise.
 
 ## Git & PRs
