@@ -9,17 +9,33 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/types/index.js"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "default": "./dist/constants/index.js"
+    },
+    "./validators": {
+      "types": "./dist/validators/index.d.ts",
+      "default": "./dist/validators/index.js"
     }
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "lint": "node --eval \"console.log('lint stub')\"",
-    "test": "node --eval \"console.log('test stub')\"",
+    "test": "node --test \"dist/__tests__/*.test.js\"",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
+    "@types/node": "^26.2.0",
     "typescript": "^7.0.2"
   }
 }

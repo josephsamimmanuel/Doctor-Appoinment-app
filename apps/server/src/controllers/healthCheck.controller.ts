@@ -1,3 +1,4 @@
+import { HTTP_STATUS } from '@repo/shared/constants';
 import type { Request, Response } from 'express';
 import { ApiResponse } from '../utils/apiResponse.js';
 
@@ -14,7 +15,7 @@ export function healthCheck(_req: Request, res: Response): void {
     uptime: process.uptime(),
   };
 
-  const response = new ApiResponse(200, 'Server is healthy', data);
+  const response = new ApiResponse(HTTP_STATUS.OK, 'Server is healthy', data);
 
   res.status(response.statusCode).json(response.toJSON());
 }
