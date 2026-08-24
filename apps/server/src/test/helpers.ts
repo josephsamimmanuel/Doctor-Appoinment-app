@@ -1,17 +1,13 @@
 import { createHmac } from 'node:crypto';
 
-import { UserRole, type UserRole as UserRoleType } from '@repo/shared/constants';
-import type { IAppointment, IDoctor, IUser } from '@repo/shared/types';
 import mongoose from 'mongoose';
 import supertest from 'supertest';
 
+import { UserRole, type UserRole as UserRoleType } from '@repo/shared/constants';
+import type { IAppointment, IDoctor, IUser } from '@repo/shared/types';
+
 import app from '../app.js';
-import {
-  buildAppointment,
-  buildDoctor,
-  buildHospital,
-  buildUser,
-} from './factories/index.js';
+import { buildAppointment, buildDoctor, buildHospital, buildUser } from './factories/index.js';
 
 /**
  * Migration notes for M5 (Authentication & User System)

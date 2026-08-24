@@ -26,7 +26,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "lint": "node --eval \"console.log('lint stub')\"",
+    "lint": "eslint . --max-warnings 0",
     "test": "node --test \"dist/__tests__/*.test.js\"",
     "typecheck": "tsc --noEmit"
   },
@@ -36,6 +36,7 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^26.2.0",
+    "eslint": "^9.39.5",
     "typescript": "^7.0.2"
   }
 }

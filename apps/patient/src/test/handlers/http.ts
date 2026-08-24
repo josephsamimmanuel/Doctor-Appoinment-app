@@ -1,5 +1,6 @@
-import type { ApiError, ApiResponse, PaginationMeta } from '@repo/shared/types';
 import { HttpResponse } from 'msw';
+
+import type { ApiError, ApiResponse, PaginationMeta } from '@repo/shared/types';
 
 export function apiBaseUrl(): string {
   return import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5000/api/v1';
@@ -25,11 +26,7 @@ export function successResponse<TData>(
   return HttpResponse.json(body, { status: statusCode });
 }
 
-export function errorResponse(
-  statusCode: number,
-  message: string,
-  errors?: ApiError['errors'],
-) {
+export function errorResponse(statusCode: number, message: string, errors?: ApiError['errors']) {
   const body: ApiError = {
     success: false,
     statusCode,

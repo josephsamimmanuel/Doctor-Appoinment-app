@@ -13,9 +13,7 @@ test.describe('Admin app smoke', () => {
     const isMobileProject = testInfo.project.name.includes('Mobile');
     if (!isMobileProject) {
       await expect(sidebar).toBeVisible();
-      await expect(
-        page.getByRole('navigation', { name: 'Admin navigation' }),
-      ).toBeVisible();
+      await expect(page.getByRole('navigation', { name: 'Admin navigation' })).toBeVisible();
     }
   });
 });

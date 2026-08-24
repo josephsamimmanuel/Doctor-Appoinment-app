@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+
 import type { DayOfWeek, IHospital } from '@repo/shared/types';
 
 function buildTimestamps(): Pick<IHospital, 'createdAt' | 'updatedAt'> {

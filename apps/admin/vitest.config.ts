@@ -18,12 +18,7 @@ export default mergeConfig(
         thresholds: {
           statements: 65,
         },
-        exclude: [
-          'src/test/**',
-          'src/**/*.test.{ts,tsx}',
-          'src/main.tsx',
-          'src/vite-env.d.ts',
-        ],
+        exclude: ['src/test/**', 'src/**/*.test.{ts,tsx}', 'src/main.tsx', 'src/vite-env.d.ts'],
       },
     },
   }),

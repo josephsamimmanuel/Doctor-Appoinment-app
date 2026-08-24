@@ -1,20 +1,21 @@
 # 🗺️ Product Development Milestones
 
 ## Doctor Appointment Booking System
+
 ### GitHub Issues — Step-by-Step Development Roadmap
 
 ---
 
-| **Field**         | **Details**                                              |
-|:------------------|:---------------------------------------------------------|
-| **Project**       | Doctor Appointment Booking System                        |
-| **Version**       | 1.0                                                      |
-| **Date**          | August 18, 2026                                          |
-| **Methodology**   | Infrastructure-First → Feature-by-Feature Release        |
-| **Issue Size**    | 1–3 days per issue                                       |
-| **Branch Strategy** | Feature branches → `develop` (staging) → `main` (prod) |
-| **Total Milestones** | 16                                                    |
-| **Total Issues**  | ~78                                                      |
+| **Field**            | **Details**                                            |
+| :------------------- | :----------------------------------------------------- |
+| **Project**          | Doctor Appointment Booking System                      |
+| **Version**          | 1.0                                                    |
+| **Date**             | August 18, 2026                                        |
+| **Methodology**      | Infrastructure-First → Feature-by-Feature Release      |
+| **Issue Size**       | 1–3 days per issue                                     |
+| **Branch Strategy**  | Feature branches → `develop` (staging) → `main` (prod) |
+| **Total Milestones** | 16                                                     |
+| **Total Issues**     | ~78                                                    |
 
 ---
 
@@ -55,6 +56,7 @@ feature/M5-auth-rbac ──────┘       │ (milestone complete)
 - [M15 — Production Release](#m15--production-release)
 
 ---
+
 ---
 
 ## M0 — Project Scaffolding
@@ -69,9 +71,11 @@ feature/M5-auth-rbac ──────┘       │ (milestone complete)
 **Estimate**: 1 day
 
 #### Context
+
 This is the very first commit. We need a Turborepo monorepo with pnpm workspaces containing three apps (`server`, `patient`, `admin`) and one shared package (`shared`). All TypeScript with a base config shared across packages.
 
 #### Requirements
+
 - Initialize Turborepo project with pnpm workspaces
 - Create `pnpm-workspace.yaml` defining `apps/*` and `packages/*`
 - Create root `package.json` with workspace scripts
@@ -81,6 +85,7 @@ This is the very first commit. We need a Turborepo monorepo with pnpm workspaces
 - Create root `README.md` with project overview
 
 #### Acceptance Criteria
+
 - [ ] `pnpm install` runs successfully at root
 - [ ] `pnpm turbo build` executes across all packages (even if empty)
 - [ ] `pnpm turbo dev` starts all dev servers concurrently
@@ -89,11 +94,13 @@ This is the very first commit. We need a Turborepo monorepo with pnpm workspaces
 - [ ] All workspace packages resolve correctly
 
 #### Test Criteria
+
 - Verify `pnpm install` produces no errors
 - Verify `turbo.json` pipeline is valid via `turbo run build --dry`
 - Verify TypeScript compilation with `tsc --noEmit` at root
 
 #### Dependencies
+
 - None (first issue)
 
 ---
@@ -104,9 +111,11 @@ This is the very first commit. We need a Turborepo monorepo with pnpm workspaces
 **Estimate**: 2 days
 
 #### Context
+
 Create the Express.js 5.2 backend server inside `apps/server` with TypeScript. This includes the folder structure (config, models, controllers, routes, middlewares, services, utils), basic Express app setup, health check endpoint, and environment variable loading.
 
 #### Requirements
+
 - Create `apps/server/package.json` with Express 5.2, TypeScript, and dev dependencies
 - Create `apps/server/tsconfig.json` extending root base config
 - Create folder structure:
@@ -128,6 +137,7 @@ Create the Express.js 5.2 backend server inside `apps/server` with TypeScript. T
 - Add `dev` and `build` scripts using `tsx` for development
 
 #### Acceptance Criteria
+
 - [ ] `pnpm --filter server dev` starts the server on port 5000
 - [ ] `GET http://localhost:5000/api/v1/health` returns 200 with status: ok
 - [ ] Helmet security headers present in response
@@ -137,11 +147,13 @@ Create the Express.js 5.2 backend server inside `apps/server` with TypeScript. T
 - [ ] Unhandled errors caught by global error handler middleware
 
 #### Test Criteria
+
 - Health endpoint returns correct JSON structure
 - Error handler returns proper error format for 404 and 500 errors
 - ApiResponse and ApiError utility classes produce correct output
 
 #### Dependencies
+
 - M0-1
 
 ---
@@ -152,9 +164,11 @@ Create the Express.js 5.2 backend server inside `apps/server` with TypeScript. T
 **Estimate**: 1 day
 
 #### Context
+
 Create the Patient-facing React SPA inside `apps/patient` using Vite 8 with TypeScript. Set up the basic folder structure, Redux store, React Router, and a landing page placeholder.
 
 #### Requirements
+
 - Initialize Vite 8 React TypeScript project in `apps/patient`
 - Create folder structure:
   ```
@@ -178,6 +192,7 @@ Create the Patient-facing React SPA inside `apps/patient` using Vite 8 with Type
 - Import Google Font (Inter)
 
 #### Acceptance Criteria
+
 - [ ] `pnpm --filter patient dev` starts Vite dev server on port 5173
 - [ ] Home page renders with project title placeholder
 - [ ] 404 page renders for unknown routes
@@ -187,11 +202,13 @@ Create the Patient-facing React SPA inside `apps/patient` using Vite 8 with Type
 - [ ] No TypeScript or ESLint errors
 
 #### Test Criteria
+
 - App renders without crashing
 - Router navigates between Home and 404 pages
 - Redux store initializes correctly
 
 #### Dependencies
+
 - M0-1
 
 ---
@@ -202,9 +219,11 @@ Create the Patient-facing React SPA inside `apps/patient` using Vite 8 with Type
 **Estimate**: 1 day
 
 #### Context
+
 Create the Admin dashboard React SPA inside `apps/admin`. Similar to the patient app but with a sidebar-based admin layout.
 
 #### Requirements
+
 - Initialize Vite 8 React TypeScript project in `apps/admin`
 - Create folder structure (mirror of patient app structure with admin-specific additions):
   ```
@@ -225,6 +244,7 @@ Create the Admin dashboard React SPA inside `apps/admin`. Similar to the patient
 - Create admin-specific CSS design tokens (darker palette suitable for dashboards)
 
 #### Acceptance Criteria
+
 - [ ] `pnpm --filter admin dev` starts on port 5174
 - [ ] Admin layout renders with sidebar and top bar
 - [ ] Dashboard page renders placeholder content
@@ -234,11 +254,13 @@ Create the Admin dashboard React SPA inside `apps/admin`. Similar to the patient
 - [ ] No TypeScript or ESLint errors
 
 #### Test Criteria
+
 - Admin app renders without crashing
 - Sidebar navigation renders with placeholder links
 - Router navigates between Dashboard and 404
 
 #### Dependencies
+
 - M0-1
 
 ---
@@ -249,9 +271,11 @@ Create the Admin dashboard React SPA inside `apps/admin`. Similar to the patient
 **Estimate**: 1 day
 
 #### Context
+
 Create the `packages/shared` TypeScript library containing shared types, constants, and Zod validation schemas used by both frontend apps and the backend server.
 
 #### Requirements
+
 - Create `packages/shared/package.json` with `exports` field
 - Create `packages/shared/tsconfig.json`
 - Create shared types:
@@ -286,6 +310,7 @@ Create the `packages/shared` TypeScript library containing shared types, constan
 - Ensure package is importable from both apps and server via `@shared/*`
 
 #### Acceptance Criteria
+
 - [ ] `import { UserRole } from '@shared/constants'` works in all three apps
 - [ ] `import { IUser } from '@shared/types'` works in all three apps
 - [ ] Zod schemas validate correctly (register schema rejects bad email, short password)
@@ -293,12 +318,14 @@ Create the `packages/shared` TypeScript library containing shared types, constan
 - [ ] No circular dependencies
 
 #### Test Criteria
+
 - Zod schemas: test registerSchema with valid and invalid data
 - Zod schemas: test loginSchema with valid and invalid data
 - All enums export expected values
 - Type exports compile without errors
 
 #### Dependencies
+
 - M0-1
 
 ---
@@ -309,9 +336,11 @@ Create the `packages/shared` TypeScript library containing shared types, constan
 **Estimate**: 1 day
 
 #### Context
+
 Configure MongoDB (via Mongoose 9.9) and Redis (via ioredis) connections in the backend server. Add graceful shutdown handling, connection retry logic, and environment-based configuration.
 
 #### Requirements
+
 - Install `mongoose@9.9.2` and `ioredis@5.x`
 - Create `src/config/db.ts`:
   - Connect to MongoDB using `MONGODB_URI` env variable
@@ -329,6 +358,7 @@ Configure MongoDB (via Mongoose 9.9) and Redis (via ioredis) connections in the 
 - Add connection status to `/api/v1/health` endpoint (db: connected/disconnected, redis: connected/disconnected)
 
 #### Acceptance Criteria
+
 - [ ] Server connects to local MongoDB on startup (logged in console)
 - [ ] Server connects to local Redis on startup (logged in console)
 - [ ] Health endpoint shows DB and Redis connection status
@@ -338,14 +368,17 @@ Configure MongoDB (via Mongoose 9.9) and Redis (via ioredis) connections in the 
 - [ ] `.env.example` contains all required env variables
 
 #### Test Criteria
+
 - Health endpoint reflects actual DB connection status
 - Connection retry logic triggers on failure (mock test)
 - Graceful shutdown sequence executes in correct order
 
 #### Dependencies
+
 - M0-2
 
 ---
+
 ---
 
 ## M1 — Test Suite Foundation
@@ -360,9 +393,11 @@ Configure MongoDB (via Mongoose 9.9) and Redis (via ioredis) connections in the 
 **Estimate**: 1 day
 
 #### Context
+
 Set up Vitest as the test runner for the backend server. Configure it for Node.js environment with MongoDB Memory Server for isolated database tests. Create test setup file and first smoke test.
 
 #### Requirements
+
 - Install `vitest`, `@vitest/coverage-v8`, `mongodb-memory-server`, `supertest`, `@faker-js/faker`
 - Create `apps/server/vitest.config.ts`:
   - Environment: `node`
@@ -383,6 +418,7 @@ Set up Vitest as the test runner for the backend server. Configure it for Node.j
   - Test `GET /api/v1/health` returns 200 with correct structure
 
 #### Acceptance Criteria
+
 - [ ] `pnpm --filter server test` runs and passes
 - [ ] `pnpm --filter server test:coverage` generates coverage report
 - [ ] MongoDB Memory Server starts automatically during tests
@@ -391,11 +427,13 @@ Set up Vitest as the test runner for the backend server. Configure it for Node.j
 - [ ] Tests run in isolation (no external DB required)
 
 #### Test Criteria
+
 - Health endpoint test validates response structure
 - Test setup correctly initializes and tears down in-memory DB
 - Coverage report generates without errors
 
 #### Dependencies
+
 - M0-2, M0-6
 
 ---
@@ -406,9 +444,11 @@ Set up Vitest as the test runner for the backend server. Configure it for Node.j
 **Estimate**: 1 day
 
 #### Context
+
 Set up Vitest with React Testing Library and MSW for both frontend apps (patient and admin). Configure jsdom environment, setup files, and write first component smoke tests.
 
 #### Requirements
+
 - Install in both `apps/patient` and `apps/admin`:
   - `vitest`, `@vitest/coverage-v8`
   - `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`
@@ -431,6 +471,7 @@ Set up Vitest with React Testing Library and MSW for both frontend apps (patient
   - Test that Home page renders expected heading
 
 #### Acceptance Criteria
+
 - [ ] `pnpm --filter patient test` runs and passes
 - [ ] `pnpm --filter admin test` runs and passes
 - [ ] Custom render utility wraps with Provider and Router
@@ -439,12 +480,14 @@ Set up Vitest with React Testing Library and MSW for both frontend apps (patient
 - [ ] jest-dom matchers available (e.g., `toBeInTheDocument`)
 
 #### Test Criteria
+
 - App renders without crashing (patient)
 - App renders without crashing (admin)
 - Custom render provides Redux store context
 - MSW setup file starts/resets/closes server correctly
 
 #### Dependencies
+
 - M0-3, M0-4
 
 ---
@@ -455,9 +498,11 @@ Set up Vitest with React Testing Library and MSW for both frontend apps (patient
 **Estimate**: 1 day
 
 #### Context
+
 Set up Playwright at the monorepo root level for cross-browser E2E testing. Configure for 3 desktop browsers + 2 mobile viewports. Create the test directory structure and write first E2E smoke test.
 
 #### Requirements
+
 - Create `e2e/` directory at monorepo root with its own `package.json`
 - Install `@playwright/test` and run `npx playwright install`
 - Create `e2e/playwright.config.ts`:
@@ -490,6 +535,7 @@ Set up Playwright at the monorepo root level for cross-browser E2E testing. Conf
 - Add `e2e` to Turborepo pipeline
 
 #### Acceptance Criteria
+
 - [ ] `pnpm --filter e2e test` runs Playwright tests
 - [ ] Smoke tests pass on at least Chromium
 - [ ] Test report generated in `e2e/playwright-report/`
@@ -498,11 +544,13 @@ Set up Playwright at the monorepo root level for cross-browser E2E testing. Conf
 - [ ] Playwright UI mode works with `test:ui`
 
 #### Test Criteria
+
 - Patient app home page loads and shows heading
 - Admin app loads and shows sidebar navigation
 - Tests run across Chromium (other browsers optional during dev)
 
 #### Dependencies
+
 - M0-3, M0-4
 
 ---
@@ -513,9 +561,11 @@ Set up Playwright at the monorepo root level for cross-browser E2E testing. Conf
 **Estimate**: 1 day
 
 #### Context
+
 Create reusable test data factories using faker.js and shared test helpers that will be used across all test suites. This eliminates duplicate test setup code and ensures consistent test data.
 
 #### Requirements
+
 - Create `apps/server/src/test/factories/`:
   - `user.factory.ts` — generate valid user data (patient, doctor, admin)
   - `doctor.factory.ts` — generate valid doctor profile data
@@ -534,6 +584,7 @@ Create reusable test data factories using faker.js and shared test helpers that 
 - Repeat MSW handlers for admin app (admin-specific endpoints)
 
 #### Acceptance Criteria
+
 - [ ] Factories generate valid data matching Zod schemas from shared package
 - [ ] `createTestUser()` returns user document + valid JWT token
 - [ ] Factories accept optional overrides to customize data
@@ -542,15 +593,18 @@ Create reusable test data factories using faker.js and shared test helpers that 
 - [ ] Helpers importable from `@test/factories` and `@test/helpers` paths
 
 #### Test Criteria
+
 - User factory generates data that passes registerSchema validation
 - Doctor factory generates data with valid specialization enum
 - createTestUser inserts into DB and returns valid JWT
 - MSW handlers respond with correct status codes and data shapes
 
 #### Dependencies
+
 - M0-5, M1-1, M1-2
 
 ---
+
 ---
 
 ## M2 — CI Pipeline
@@ -565,9 +619,11 @@ Create reusable test data factories using faker.js and shared test helpers that 
 **Estimate**: 1 day
 
 #### Context
+
 Configure ESLint 9 (flat config) and Prettier across the entire monorepo. Set up Husky + lint-staged to enforce linting on every commit.
 
 #### Requirements
+
 - Install `eslint@9.x`, `prettier@3.x`, `husky@9.x`, `lint-staged@15.x` at root
 - Create `eslint.config.js` (ESLint flat config) at root:
   - TypeScript rules (strict)
@@ -583,6 +639,7 @@ Configure ESLint 9 (flat config) and Prettier across the entire monorepo. Set up
 - Add `lint` and `typecheck` tasks to `turbo.json` pipeline
 
 #### Acceptance Criteria
+
 - [ ] `pnpm turbo lint` runs ESLint across all packages with zero errors
 - [ ] `pnpm turbo typecheck` runs `tsc --noEmit` across all packages
 - [ ] `pnpm format:check` validates formatting across all files
@@ -591,11 +648,13 @@ Configure ESLint 9 (flat config) and Prettier across the entire monorepo. Set up
 - [ ] Different ESLint rules for React (frontend) vs Node.js (backend)
 
 #### Test Criteria
+
 - Introduce a deliberate lint error → verify ESLint catches it
 - Introduce bad formatting → verify Prettier catches it
 - Commit with lint error → verify Husky blocks the commit
 
 #### Dependencies
+
 - M0-1 through M0-5
 
 ---
@@ -606,9 +665,11 @@ Configure ESLint 9 (flat config) and Prettier across the entire monorepo. Set up
 **Estimate**: 1 day
 
 #### Context
+
 Create the first GitHub Actions CI workflow that runs on every push and pull request. This initial workflow handles linting and type checking.
 
 #### Requirements
+
 - Create `.github/workflows/ci.yml`
 - Job 1: `lint-typecheck`
   - Runs on `ubuntu-latest`
@@ -621,6 +682,7 @@ Create the first GitHub Actions CI workflow that runs on every push and pull req
 - Add CI status badge to root `README.md`
 
 #### Acceptance Criteria
+
 - [ ] Workflow triggers on push to any branch and on pull requests
 - [ ] `lint-typecheck` job passes on a clean codebase
 - [ ] pnpm store is cached between runs (faster subsequent runs)
@@ -629,12 +691,14 @@ Create the first GitHub Actions CI workflow that runs on every push and pull req
 - [ ] Workflow uses pnpm/action-setup and actions/setup-node
 
 #### Test Criteria
+
 - Push clean code → CI passes (green)
 - Push code with type error → CI fails (red)
 - Push code with lint error → CI fails (red)
 - Second run is faster due to cache
 
 #### Dependencies
+
 - M2-1
 
 ---
@@ -645,9 +709,11 @@ Create the first GitHub Actions CI workflow that runs on every push and pull req
 **Estimate**: 2 days
 
 #### Context
+
 Extend the CI workflow to run all test suites (Vitest unit/integration + Playwright E2E) and enforce coverage thresholds. Tests only run after lint/typecheck passes.
 
 #### Requirements
+
 - Add to `.github/workflows/ci.yml`:
 - Job 2: `unit-tests` (needs: `lint-typecheck`)
   - Services: MongoDB 8 (port 27017), Redis 7 (port 6379)
@@ -662,6 +728,7 @@ Extend the CI workflow to run all test suites (Vitest unit/integration + Playwri
 - Create concurrency group to cancel outdated workflow runs on same branch
 
 #### Acceptance Criteria
+
 - [ ] Unit tests run with MongoDB + Redis service containers
 - [ ] Coverage report uploaded as downloadable artifact
 - [ ] E2E tests run after unit tests pass
@@ -671,15 +738,18 @@ Extend the CI workflow to run all test suites (Vitest unit/integration + Playwri
 - [ ] Full CI pipeline: lint → typecheck → unit tests → e2e tests
 
 #### Test Criteria
+
 - All existing smoke tests pass in CI
 - Coverage artifacts downloadable from workflow run
 - Failing test causes workflow to fail
 - Playwright report accessible on failure
 
 #### Dependencies
+
 - M1-1, M1-2, M1-3, M2-2
 
 ---
+
 ---
 
 ## M3 — Docker & CD Pipeline
@@ -694,9 +764,11 @@ Extend the CI workflow to run all test suites (Vitest unit/integration + Playwri
 **Estimate**: 1 day
 
 #### Context
+
 Create a multi-stage Dockerfile that builds the entire monorepo (backend + both frontend apps) into a production-ready container. The backend serves the static frontend builds.
 
 #### Requirements
+
 - Create `Dockerfile` at monorepo root:
   - **Stage 1 (Builder)**: Install dependencies, build shared package, build both frontend apps (Vite), build backend (TypeScript → JavaScript)
   - **Stage 2 (Production)**: Copy only production `node_modules`, built backend, and frontend dist folders. No source code or dev dependencies.
@@ -710,6 +782,7 @@ Create a multi-stage Dockerfile that builds the entire monorepo (backend + both 
 - Use `node` (not `tsx`) to run compiled JavaScript
 
 #### Acceptance Criteria
+
 - [ ] `docker build -t doc-app .` builds successfully
 - [ ] `docker run -p 5000:5000 doc-app` starts the container
 - [ ] `GET /api/v1/health` works from container
@@ -719,12 +792,14 @@ Create a multi-stage Dockerfile that builds the entire monorepo (backend + both 
 - [ ] No TypeScript source code in production image
 
 #### Test Criteria
+
 - Health endpoint responds from container
 - Frontend apps load from container-served static files
 - Container starts within 10 seconds
 - No dev dependencies present in production image
 
 #### Dependencies
+
 - M0-2, M0-3, M0-4
 
 ---
@@ -735,9 +810,11 @@ Create a multi-stage Dockerfile that builds the entire monorepo (backend + both 
 **Estimate**: 1 day
 
 #### Context
+
 Create a `docker-compose.yml` for local development that spins up MongoDB, Redis, and optionally the backend server. Developers should be able to run `docker compose up` to get all infrastructure services running.
 
 #### Requirements
+
 - Create `docker-compose.yml` with services:
   - `mongodb`: MongoDB 8.3 with persistent volume, port 27017
   - `redis`: Redis 7 with persistent volume, port 6379
@@ -753,6 +830,7 @@ Create a `docker-compose.yml` for local development that spins up MongoDB, Redis
 - Update `.env.example` with Docker-compatible connection strings
 
 #### Acceptance Criteria
+
 - [ ] `docker compose up -d` starts MongoDB + Redis
 - [ ] MongoDB accessible at `localhost:27017`
 - [ ] Redis accessible at `localhost:6379`
@@ -761,12 +839,14 @@ Create a `docker-compose.yml` for local development that spins up MongoDB, Redis
 - [ ] Production compose builds and runs complete stack
 
 #### Test Criteria
+
 - `docker compose up` starts without errors
 - Backend health endpoint shows db: connected, redis: connected
 - Data persists after container restart
 - Production compose serves frontend and API
 
 #### Dependencies
+
 - M0-6, M3-1
 
 ---
@@ -777,9 +857,11 @@ Create a `docker-compose.yml` for local development that spins up MongoDB, Redis
 **Estimate**: 1 day
 
 #### Context
+
 Extend the CI/CD pipeline to build a Docker image and push it to a container registry (Docker Hub or GitHub Container Registry) after all tests pass.
 
 #### Requirements
+
 - Add to `.github/workflows/ci.yml` or create `.github/workflows/deploy.yml`:
 - Job: `build-and-push` (needs: `e2e-tests`)
   - Triggers only on push to `develop` or `main`
@@ -796,6 +878,7 @@ Extend the CI/CD pipeline to build a Docker image and push it to a container reg
 - Store Docker registry credentials and SSH keys as GitHub Secrets
 
 #### Acceptance Criteria
+
 - [ ] Docker image built automatically after tests pass
 - [ ] Image pushed to container registry with proper tags
 - [ ] Docker layer caching reduces build time on subsequent runs
@@ -804,12 +887,14 @@ Extend the CI/CD pipeline to build a Docker image and push it to a container reg
 - [ ] Workflow only deploys from `develop` branch (not feature branches)
 
 #### Test Criteria
+
 - Push to `develop` → image built and pushed to registry
 - Push to feature branch → no image built or deployed
 - Deploy job verifies health endpoint after deployment
 - Failed health check marks deployment as failed
 
 #### Dependencies
+
 - M2-3, M3-1
 
 ---
@@ -820,9 +905,11 @@ Extend the CI/CD pipeline to build a Docker image and push it to a container reg
 **Estimate**: 1 day
 
 #### Context
+
 Enhance the health check endpoint to serve as a comprehensive monitoring endpoint. This is used by the CD pipeline and CloudClusters to verify deployment health.
 
 #### Requirements
+
 - Enhance `GET /api/v1/health` to return detailed status:
   ```json
   {
@@ -845,6 +932,7 @@ Enhance the health check endpoint to serve as a comprehensive monitoring endpoin
 - Add request logging middleware that logs request duration for monitoring
 
 #### Acceptance Criteria
+
 - [ ] Health endpoint returns all service statuses with latency
 - [ ] `/health/ready` returns 503 if DB is disconnected
 - [ ] `/health/live` always returns 200 if server is running
@@ -853,15 +941,18 @@ Enhance the health check endpoint to serve as a comprehensive monitoring endpoin
 - [ ] Request logging shows method, path, status code, and duration
 
 #### Test Criteria
+
 - Health endpoint returns correct structure (Supertest)
 - Ready endpoint returns 503 when DB disconnected (mock)
 - Live endpoint always returns 200
 - Latency values are realistic numbers (not null/zero)
 
 #### Dependencies
+
 - M0-6
 
 ---
+
 ---
 
 ## M4 — CloudClusters & Domain
@@ -876,9 +967,11 @@ Enhance the health check endpoint to serve as a comprehensive monitoring endpoin
 **Estimate**: 2 days
 
 #### Context
+
 Provision and configure the CloudClusters VPS for hosting the Docker-based application stack. Install Docker, configure firewall, and set up the initial deployment manually.
 
 #### Requirements
+
 - Provision CloudClusters VPS (Ubuntu 24.04 LTS recommended)
 - Install Docker Engine and Docker Compose on VPS
 - Configure UFW firewall: allow ports 22 (SSH), 80 (HTTP), 443 (HTTPS), deny all others
@@ -892,6 +985,7 @@ Provision and configure the CloudClusters VPS for hosting the Docker-based appli
 - Document the full VPS setup process in `docs/deployment-guide.md`
 
 #### Acceptance Criteria
+
 - [ ] VPS accessible via SSH with key-based auth
 - [ ] Docker and Docker Compose installed and running
 - [ ] Firewall configured (ports 22, 80, 443 only)
@@ -901,12 +995,14 @@ Provision and configure the CloudClusters VPS for hosting the Docker-based appli
 - [ ] Deployment guide documented
 
 #### Test Criteria
+
 - SSH connection works with deploy key
 - `docker ps` shows all containers running on VPS
 - Health endpoint returns OK from external network
 - Firewall blocks non-allowed ports (test with nmap or telnet)
 
 #### Dependencies
+
 - M3-1, M3-2
 
 ---
@@ -917,9 +1013,11 @@ Provision and configure the CloudClusters VPS for hosting the Docker-based appli
 **Estimate**: 1 day
 
 #### Context
+
 Configure domain DNS records and set up Nginx as a reverse proxy to route traffic to the Docker application.
 
 #### Requirements
+
 - Configure DNS A records:
   - `staging.yourdomain.com` → VPS IP address
   - (Optional) `api-staging.yourdomain.com` → VPS IP (if separate API subdomain)
@@ -934,6 +1032,7 @@ Configure domain DNS records and set up Nginx as a reverse proxy to route traffi
 - Add Nginx config to version control (`infra/nginx/`)
 
 #### Acceptance Criteria
+
 - [ ] `staging.yourdomain.com` resolves to VPS IP
 - [ ] Application accessible via domain name (HTTP)
 - [ ] Nginx proxies requests to Docker container
@@ -942,12 +1041,14 @@ Configure domain DNS records and set up Nginx as a reverse proxy to route traffi
 - [ ] Gzip compression active for text/JSON responses
 
 #### Test Criteria
+
 - Browser navigates to `staging.yourdomain.com` and loads patient app
 - API calls work via `staging.yourdomain.com/api/v1/health`
 - WebSocket connection establishes (check in browser DevTools)
 - Upload a 5MB file → succeeds; upload 15MB → fails with 413
 
 #### Dependencies
+
 - M4-1
 
 ---
@@ -958,9 +1059,11 @@ Configure domain DNS records and set up Nginx as a reverse proxy to route traffi
 **Estimate**: 1 day
 
 #### Context
+
 Install SSL certificate using Let's Encrypt (Certbot) and configure Nginx to serve all traffic over HTTPS with automatic HTTP → HTTPS redirect.
 
 #### Requirements
+
 - Install Certbot on VPS
 - Obtain SSL certificate for `staging.yourdomain.com`
 - Update Nginx configuration:
@@ -976,15 +1079,17 @@ Install SSL certificate using Let's Encrypt (Certbot) and configure Nginx to ser
 - Update `.env.production` with HTTPS domain URL
 
 #### Acceptance Criteria
+
 - [ ] `https://staging.yourdomain.com` serves application with valid certificate
 - [ ] `http://staging.yourdomain.com` redirects to HTTPS
-- [ ] SSL Labs grade A or A+ 
+- [ ] SSL Labs grade A or A+
 - [ ] HSTS header present in responses
 - [ ] Certbot auto-renewal configured (cron or systemd timer)
 - [ ] No mixed content warnings in browser
 - [ ] Application CORS allows staging HTTPS origin
 
 #### Test Criteria
+
 - Navigate to HTTP → verify redirect to HTTPS
 - Check SSL Labs score (aim for A+)
 - Verify HSTS header in response headers
@@ -992,9 +1097,11 @@ Install SSL certificate using Let's Encrypt (Certbot) and configure Nginx to ser
 - WebSocket (WSS) works over HTTPS
 
 #### Dependencies
+
 - M4-2
 
 ---
+
 ---
 
 ## M5 — Authentication & User System
@@ -1009,9 +1116,11 @@ Install SSL certificate using Let's Encrypt (Certbot) and configure Nginx to ser
 **Estimate**: 2 days
 
 #### Context
+
 Create the User Mongoose model and the registration API endpoint. Users can register as patients with email, password, name, and phone number. Passwords hashed with bcryptjs.
 
 #### Requirements
+
 - Create `User.model.ts` with Mongoose schema:
   - Fields: name, email (unique, indexed), phone (unique, indexed), password (hashed), role (enum from shared), profile (Object), familyMembers (Array), avatar, isEmailVerified, isPhoneVerified, refreshToken, createdAt, updatedAt
   - Pre-save hook: hash password with bcryptjs (salt rounds = 12)
@@ -1024,6 +1133,7 @@ Create the User Mongoose model and the registration API endpoint. Users can regi
 - Return sanitized user (no password field) + JWT token
 
 #### Acceptance Criteria
+
 - [ ] `POST /api/v1/auth/register` creates user and returns 201
 - [ ] Password stored as bcrypt hash (not plaintext)
 - [ ] Duplicate email returns 409 Conflict
@@ -1033,6 +1143,7 @@ Create the User Mongoose model and the registration API endpoint. Users can regi
 - [ ] JWT access token returned in response
 
 #### Test Criteria
+
 - Register with valid data → 201 + user + token
 - Register with duplicate email → 409
 - Register with invalid email → 400 with field error
@@ -1041,6 +1152,7 @@ Create the User Mongoose model and the registration API endpoint. Users can regi
 - Returned user object has no password field
 
 #### Dependencies
+
 - M0-5, M0-6, M1-1
 
 ---
@@ -1051,9 +1163,11 @@ Create the User Mongoose model and the registration API endpoint. Users can regi
 **Estimate**: 2 days
 
 #### Context
+
 Implement login endpoint with JWT access token (15 min) + refresh token (7 days) system. Access token sent in response body; refresh token stored as HttpOnly cookie.
 
 #### Requirements
+
 - Create login logic in `auth.service.ts`:
   - Find user by email, compare password
   - Generate access token (JWT, 15 min expiry)
@@ -1072,6 +1186,7 @@ Implement login endpoint with JWT access token (15 min) + refresh token (7 days)
 - Create JWT utility: `src/utils/jwt.ts` (sign, verify, decode)
 
 #### Acceptance Criteria
+
 - [ ] Login with correct credentials returns access token + sets refresh cookie
 - [ ] Login with wrong password returns 401
 - [ ] Login with non-existent email returns 401 (same error message — no enumeration)
@@ -1082,6 +1197,7 @@ Implement login endpoint with JWT access token (15 min) + refresh token (7 days)
 - [ ] `GET /auth/me` returns 401 when not authenticated
 
 #### Test Criteria
+
 - Login success → 200 + token + cookie
 - Login wrong password → 401
 - Login non-existent user → 401 (same error as wrong password)
@@ -1091,6 +1207,7 @@ Implement login endpoint with JWT access token (15 min) + refresh token (7 days)
 - Auth middleware blocks unauthenticated requests
 
 #### Dependencies
+
 - M5-1
 
 ---
@@ -1101,9 +1218,11 @@ Implement login endpoint with JWT access token (15 min) + refresh token (7 days)
 **Estimate**: 1 day
 
 #### Context
+
 Implement Google OAuth 2.0 login. Frontend initiates Google sign-in, sends the ID token to the backend, which verifies it and creates/logs in the user.
 
 #### Requirements
+
 - Install Google Auth library for token verification on backend
 - Create `POST /api/v1/auth/google` endpoint:
   - Receive Google ID token from frontend
@@ -1118,6 +1237,7 @@ Implement Google OAuth 2.0 login. Frontend initiates Google sign-in, sends the I
 - Handle edge case: user registered with email/password tries Google login (link accounts)
 
 #### Acceptance Criteria
+
 - [ ] Google sign-in button visible on patient app login page
 - [ ] Clicking Google button initiates OAuth flow
 - [ ] New Google user → account created + logged in
@@ -1126,12 +1246,14 @@ Implement Google OAuth 2.0 login. Frontend initiates Google sign-in, sends the I
 - [ ] User with same email (password auth) can link Google account
 
 #### Test Criteria
+
 - Mock Google token verification → user created in DB
 - Duplicate email (existing user) → logs in, doesn't create duplicate
 - Invalid Google token → 401
 - Frontend Google button renders correctly
 
 #### Dependencies
+
 - M5-2
 
 ---
@@ -1142,9 +1264,11 @@ Implement Google OAuth 2.0 login. Frontend initiates Google sign-in, sends the I
 **Estimate**: 1 day
 
 #### Context
+
 Implement password reset flow: user requests reset via email, receives a time-limited token link, and sets a new password.
 
 #### Requirements
+
 - Create `POST /api/v1/auth/forgot-password`:
   - Accept email, find user
   - Generate random reset token (crypto), hash it, store in DB with 30-min expiry
@@ -1162,6 +1286,7 @@ Implement password reset flow: user requests reset via email, receives a time-li
 - Frontend: Create Forgot Password page and Reset Password page in patient app
 
 #### Acceptance Criteria
+
 - [ ] Forgot password sends email with reset link
 - [ ] Reset link works within 30 minutes
 - [ ] Expired reset token returns 400
@@ -1170,6 +1295,7 @@ Implement password reset flow: user requests reset via email, receives a time-li
 - [ ] Non-existent email still returns 200 (no enumeration)
 
 #### Test Criteria
+
 - Forgot password with valid email → reset token created in DB
 - Forgot password with invalid email → 200 (no error leak)
 - Reset with valid token → password changed
@@ -1178,6 +1304,7 @@ Implement password reset flow: user requests reset via email, receives a time-li
 - After reset, old access tokens rejected
 
 #### Dependencies
+
 - M5-2
 
 ---
@@ -1188,9 +1315,11 @@ Implement password reset flow: user requests reset via email, receives a time-li
 **Estimate**: 1 day
 
 #### Context
+
 Create the Role-Based Access Control middleware that restricts API endpoints based on user roles. This is critical for separating patient vs. admin functionality.
 
 #### Requirements
+
 - Create `rbac.middleware.ts`:
   - Accept allowed roles as parameter: `authorize('admin', 'superAdmin')`
   - Check `req.user.role` against allowed roles
@@ -1211,6 +1340,7 @@ Create the Role-Based Access Control middleware that restricts API endpoints bas
 - Create `ownership.middleware.ts` for resource-level checks (user can only access their own data)
 
 #### Acceptance Criteria
+
 - [ ] Patient cannot access admin routes (403)
 - [ ] Admin can access admin routes
 - [ ] Super Admin can access everything
@@ -1220,6 +1350,7 @@ Create the Role-Based Access Control middleware that restricts API endpoints bas
 - [ ] Ownership middleware prevents user A from accessing user B's data
 
 #### Test Criteria
+
 - Patient token → admin route → 403
 - Admin token → admin route → 200
 - Super Admin token → any route → 200
@@ -1227,6 +1358,7 @@ Create the Role-Based Access Control middleware that restricts API endpoints bas
 - Patient A token → Patient A's appointment → 200
 
 #### Dependencies
+
 - M5-2
 
 ---
@@ -1237,9 +1369,11 @@ Create the Role-Based Access Control middleware that restricts API endpoints bas
 **Estimate**: 2 days
 
 #### Context
+
 Build the user profile management feature — edit personal details, upload profile photo, and manage family member profiles for dependent booking.
 
 #### Requirements
+
 - Backend:
   - `PATCH /api/v1/users/profile` — update profile (name, age, gender, blood group, allergies, medical history)
   - `POST /api/v1/users/avatar` — upload profile photo (Multer + Cloudinary)
@@ -1256,6 +1390,7 @@ Build the user profile management feature — edit personal details, upload prof
 - Create `userApi.ts` RTK Query slice with all profile endpoints
 
 #### Acceptance Criteria
+
 - [ ] User can view and edit their profile details
 - [ ] Profile photo uploads to Cloudinary and URL saved in DB
 - [ ] Invalid file types rejected (only JPEG, PNG)
@@ -1265,6 +1400,7 @@ Build the user profile management feature — edit personal details, upload prof
 - [ ] Profile page uses RTK Query for data fetching
 
 #### Test Criteria
+
 - Update profile → DB reflects changes
 - Upload valid photo → Cloudinary URL returned
 - Upload invalid file type → 400
@@ -1274,9 +1410,11 @@ Build the user profile management feature — edit personal details, upload prof
 - Frontend form validation prevents invalid submissions
 
 #### Dependencies
+
 - M5-2
 
 ---
+
 ---
 
 ## M6 — Doctor & Search
@@ -1291,9 +1429,11 @@ Build the user profile management feature — edit personal details, upload prof
 **Estimate**: 1 day
 
 #### Context
+
 Create the Doctor, Hospital, and Department Mongoose models. Seed the database with sample specialties and a default hospital.
 
 #### Requirements
+
 - Create `Doctor.model.ts`: userId (ref), hospitalId (ref), departmentId (ref), specialization (enum), experience (years), consultationFee, telemedicineFee, qualifications (array), bio, languages (array), availability (weekly schedule object), rating (default 0), totalReviews (default 0), slug (unique, indexed), isActive
 - Create `Hospital.model.ts`: name, logo, description, branches (array of {address, city, state, pincode, phone}), workingHours, holidays, bookingPolicy ({cancellationWindow, reschedulingAllowed, refundPercentage}), isActive
 - Create `Department.model.ts`: hospitalId (ref), name, description, icon, isActive
@@ -1304,6 +1444,7 @@ Create the Doctor, Hospital, and Department Mongoose models. Seed the database w
 - Add seed script to package.json: `pnpm --filter server seed`
 
 #### Acceptance Criteria
+
 - [ ] All three models created with proper TypeScript types
 - [ ] Indexes on: doctor.slug, doctor.specialization, doctor.hospitalId
 - [ ] Doctor slug auto-generated from name using slugify
@@ -1312,6 +1453,7 @@ Create the Doctor, Hospital, and Department Mongoose models. Seed the database w
 - [ ] Models reference each other correctly (populate works)
 
 #### Test Criteria
+
 - Create doctor with valid data → saved with auto-generated slug
 - Doctor populate with hospital and department → returns nested data
 - Duplicate slug → unique constraint error
@@ -1319,6 +1461,7 @@ Create the Doctor, Hospital, and Department Mongoose models. Seed the database w
 - Seed script runs without errors on already-seeded DB (idempotent)
 
 #### Dependencies
+
 - M0-6
 
 ---
@@ -1329,9 +1472,11 @@ Create the Doctor, Hospital, and Department Mongoose models. Seed the database w
 **Estimate**: 2 days
 
 #### Context
+
 Build the doctor search API with full-text search, specialty filtering, advanced filters, sorting, and pagination. This is the primary discovery mechanism for patients.
 
 #### Requirements
+
 - Create `doctor.service.ts` with `searchDoctors(filters)`:
   - Full-text search across name, specialization, hospital name
   - Filter by: specialization, experience range, fee range, rating range, languages, availability day
@@ -1347,6 +1492,7 @@ Build the doctor search API with full-text search, specialty filtering, advanced
 - Implement Redis caching for specialty list (5 min TTL)
 
 #### Acceptance Criteria
+
 - [ ] Search by name returns matching doctors
 - [ ] Filter by specialization returns correct subset
 - [ ] Filter by fee range works (min, max)
@@ -1357,6 +1503,7 @@ Build the doctor search API with full-text search, specialty filtering, advanced
 - [ ] Specialty list cached in Redis
 
 #### Test Criteria
+
 - Search "cardio" → returns cardiologists
 - Filter specialization=Cardiology → only cardiologists
 - Filter fee min=500 max=1000 → correct subset
@@ -1367,6 +1514,7 @@ Build the doctor search API with full-text search, specialty filtering, advanced
 - Specialty list returns all departments
 
 #### Dependencies
+
 - M6-1
 
 ---
@@ -1377,9 +1525,11 @@ Build the doctor search API with full-text search, specialty filtering, advanced
 **Estimate**: 2 days
 
 #### Context
+
 Build the slot availability system. Each doctor has a weekly schedule defining their working hours. The system generates available time slots for any given date, excluding already-booked slots.
 
 #### Requirements
+
 - Doctor availability schema in model:
   ```typescript
   availability: {
@@ -1402,6 +1552,7 @@ Build the slot availability system. Each doctor has a weekly schedule defining t
 - Use dayjs for date/time manipulation
 
 #### Acceptance Criteria
+
 - [ ] Slots generated based on doctor's weekly schedule
 - [ ] Booked slots excluded from available list
 - [ ] Hospital holidays return empty slots
@@ -1410,6 +1561,7 @@ Build the slot availability system. Each doctor has a weekly schedule defining t
 - [ ] Response includes both available and booked slots with status
 
 #### Test Criteria
+
 - Monday with schedule 9-12 + 14-17, 30min slots → 12 total slots
 - Book 10:00 slot → that slot shows as booked
 - Query holiday date → empty slots
@@ -1417,6 +1569,7 @@ Build the slot availability system. Each doctor has a weekly schedule defining t
 - Doctor with no schedule for Wednesday → empty on Wednesday
 
 #### Dependencies
+
 - M6-1
 
 ---
@@ -1427,9 +1580,11 @@ Build the slot availability system. Each doctor has a weekly schedule defining t
 **Estimate**: 2 days
 
 #### Context
+
 Build the Doctor Search page on the patient app with specialty quick-links, search bar, advanced filters sidebar, doctor cards, and pagination.
 
 #### Requirements
+
 - Create RTK Query API: `doctorApi.ts` (getDoctors, getDoctorById, getSpecialties, getAvailableSlots)
 - Create Doctor Search page (`pages/DoctorSearch/`):
   - Search bar with real-time search (debounced 300ms)
@@ -1444,6 +1599,7 @@ Build the Doctor Search page on the patient app with specialty quick-links, sear
 - Use react-hot-toast for any error notifications
 
 #### Acceptance Criteria
+
 - [ ] Search bar filters doctors in real-time
 - [ ] Specialty chips filter correctly
 - [ ] Advanced filters work (fee range, experience, rating)
@@ -1455,6 +1611,7 @@ Build the Doctor Search page on the patient app with specialty quick-links, sear
 - [ ] RTK Query caches results (navigating back doesn't re-fetch)
 
 #### Test Criteria
+
 - Component test: renders doctor cards from mock data
 - Component test: search input triggers filter
 - Component test: empty state shows when no results
@@ -1462,6 +1619,7 @@ Build the Doctor Search page on the patient app with specialty quick-links, sear
 - RTK Query test: verify API call with MSW mock
 
 #### Dependencies
+
 - M6-2, M5-6
 
 ---
@@ -1472,9 +1630,11 @@ Build the Doctor Search page on the patient app with specialty quick-links, sear
 **Estimate**: 2 days
 
 #### Context
+
 Build the detailed Doctor Profile page showing doctor information, qualifications, availability calendar, reviews summary, and a "Book Appointment" CTA.
 
 #### Requirements
+
 - Create Doctor Profile page (`pages/DoctorProfile/`):
   - Doctor header: photo, name, specialty, experience, rating stars, consultation fee
   - Tabs or sections: About, Qualifications, Availability, Reviews
@@ -1491,6 +1651,7 @@ Build the detailed Doctor Profile page showing doctor information, qualification
 - Use Framer Motion for tab transitions
 
 #### Acceptance Criteria
+
 - [ ] Doctor profile loads all details correctly
 - [ ] Date picker shows available dates
 - [ ] Slot grid shows available/booked slots for selected date
@@ -1501,6 +1662,7 @@ Build the detailed Doctor Profile page showing doctor information, qualification
 - [ ] Page is SEO-friendly (react-helmet-async with doctor name in title)
 
 #### Test Criteria
+
 - Component test: renders doctor details from mock data
 - Component test: selecting a date fetches slots
 - Component test: selecting a slot enables CTA
@@ -1508,9 +1670,11 @@ Build the detailed Doctor Profile page showing doctor information, qualification
 - RTK Query test: doctor detail + slots API calls with MSW
 
 #### Dependencies
+
 - M6-3, M6-4
 
 ---
+
 ---
 
 ## M7 — Appointment Booking
@@ -1525,9 +1689,11 @@ Build the detailed Doctor Profile page showing doctor information, qualification
 **Estimate**: 2 days
 
 #### Context
+
 Create the Appointment model and the booking API. When a patient books, a pending appointment is created and a payment order is initiated.
 
 #### Requirements
+
 - Create `Appointment.model.ts`: patientId, doctorId, hospitalId, departmentId, date, timeSlot, mode (in-person/telemedicine), type (instant/request), status (enum: pending, confirmed, inProgress, completed, cancelled, noShow), bookingFor (self/family member), familyMemberId, dailyRoomUrl, tokenNumber, notes, cancelReason, cancelledBy, createdAt, updatedAt
 - Create booking logic in `booking.service.ts`:
   - Validate slot is available (not already booked)
@@ -1544,6 +1710,7 @@ Create the Appointment model and the booking API. When a patient books, a pendin
 - Generate unique appointment reference: `APT-XXXXXXXX`
 
 #### Acceptance Criteria
+
 - [ ] Booking creates appointment with pending status
 - [ ] Double-booking same slot returns 409 Conflict
 - [ ] Past date booking returns 400
@@ -1554,6 +1721,7 @@ Create the Appointment model and the booking API. When a patient books, a pendin
 - [ ] Booking for family member stores familyMemberId
 
 #### Test Criteria
+
 - Book valid slot → 201 + appointment
 - Book already-taken slot → 409
 - Book past date → 400
@@ -1562,6 +1730,7 @@ Create the Appointment model and the booking API. When a patient books, a pendin
 - Get appointment detail → populated with doctor info
 
 #### Dependencies
+
 - M6-3, M5-5
 
 ---
@@ -1572,9 +1741,11 @@ Create the Appointment model and the booking API. When a patient books, a pendin
 **Estimate**: 2 days
 
 #### Context
+
 Implement appointment rescheduling and cancellation logic with hospital booking policy enforcement (cancellation window, refund rules).
 
 #### Requirements
+
 - Create `rescheduleAppointment(appointmentId, newDate, newSlot)` in booking service:
   - Validate appointment belongs to user
   - Validate new slot is available
@@ -1599,6 +1770,7 @@ Implement appointment rescheduling and cancellation logic with hospital booking 
 - Store cancellation policy in Hospital model (configurable by admin)
 
 #### Acceptance Criteria
+
 - [ ] Reschedule changes date/slot, keeps payment
 - [ ] Old slot freed after reschedule
 - [ ] New slot must be available
@@ -1609,6 +1781,7 @@ Implement appointment rescheduling and cancellation logic with hospital booking 
 - [ ] Completed/already-cancelled appointments can't be cancelled again
 
 #### Test Criteria
+
 - Reschedule to available slot → 200 + updated appointment
 - Reschedule to taken slot → 409
 - Cancel 24h+ before → full refund amount recorded
@@ -1617,6 +1790,7 @@ Implement appointment rescheduling and cancellation logic with hospital booking 
 - Cancel by non-owner → 403
 
 #### Dependencies
+
 - M7-1
 
 ---
@@ -1627,9 +1801,11 @@ Implement appointment rescheduling and cancellation logic with hospital booking 
 **Estimate**: 2 days
 
 #### Context
+
 Build the multi-step booking flow: Slot Selection → Booking Summary → Payment → Confirmation. This connects the doctor profile page to the payment system.
 
 #### Requirements
+
 - Create Booking page (`pages/Booking/`):
   - Step 1: Slot Selection (pre-filled from doctor profile or fresh selection)
   - Step 2: Booking Summary — doctor info, date, time, mode, fee, "Book for" (self/family member dropdown)
@@ -1643,6 +1819,7 @@ Build the multi-step booking flow: Slot Selection → Booking Summary → Paymen
 - Responsive design for mobile
 
 #### Acceptance Criteria
+
 - [ ] Multi-step flow navigates correctly
 - [ ] Step indicator shows progress
 - [ ] Booking summary shows all correct details
@@ -1653,12 +1830,14 @@ Build the multi-step booking flow: Slot Selection → Booking Summary → Paymen
 - [ ] Mobile-responsive layout
 
 #### Test Criteria
+
 - Component test: step indicator renders correct steps
 - Component test: booking summary shows passed data
 - Component test: confirmation shows reference number
 - E2E test: complete booking flow (select slot → summary → confirm)
 
 #### Dependencies
+
 - M7-1, M6-5
 
 ---
@@ -1669,9 +1848,11 @@ Build the multi-step booking flow: Slot Selection → Booking Summary → Paymen
 **Estimate**: 2 days
 
 #### Context
+
 Build the "My Appointments" page where patients view their upcoming, past, and cancelled appointments with actions to reschedule, cancel, or join video call.
 
 #### Requirements
+
 - Create Appointments page (`pages/Appointments/`):
   - Tab view: Upcoming | Past | Cancelled
   - Appointment card showing: doctor photo, name, specialty, date, time, mode (icon), status badge
@@ -1687,6 +1868,7 @@ Build the "My Appointments" page where patients view their upcoming, past, and c
 - Pull-to-refresh or refresh button
 
 #### Acceptance Criteria
+
 - [ ] Three tabs show correct appointments by status
 - [ ] Appointment cards show all required info
 - [ ] Reschedule opens modal with new date/slot picker
@@ -1697,12 +1879,14 @@ Build the "My Appointments" page where patients view their upcoming, past, and c
 - [ ] Appointments sorted by date correctly
 
 #### Test Criteria
+
 - Component test: renders upcoming appointments
 - Component test: renders empty state for empty tab
 - Component test: cancel modal shows refund percentage
 - E2E test: view appointments → open cancel modal → confirm cancel
 
 #### Dependencies
+
 - M7-2, M7-3
 
 ---
@@ -1713,9 +1897,11 @@ Build the "My Appointments" page where patients view their upcoming, past, and c
 **Estimate**: 1 day
 
 #### Context
+
 When all slots are booked for a doctor on a given date, patients can join a waitlist and get notified when a slot opens (due to cancellation or reschedule).
 
 #### Requirements
+
 - Add waitlist array to Appointment model or create separate Waitlist model:
   - patientId, doctorId, date, preferredSlots (array of preferred times), status (waiting/notified/expired), createdAt
 - Create `POST /api/v1/appointments/waitlist` — join waitlist
@@ -1729,6 +1915,7 @@ When all slots are booked for a doctor on a given date, patients can join a wait
 - Frontend: "Join Waitlist" button appears when no slots available
 
 #### Acceptance Criteria
+
 - [ ] Patient can join waitlist when no slots available
 - [ ] Slot cancellation triggers waitlist notification
 - [ ] First patient in queue gets priority
@@ -1737,12 +1924,14 @@ When all slots are booked for a doctor on a given date, patients can join a wait
 - [ ] "Join Waitlist" button appears on fully booked dates
 
 #### Test Criteria
+
 - Join waitlist → entry created
 - Cancel appointment → first waitlisted patient notified
 - Two patients on waitlist → first gets notified first
 - Leave waitlist → entry removed
 
 #### Dependencies
+
 - M7-2
 
 ---
@@ -1753,9 +1942,11 @@ When all slots are booked for a doctor on a given date, patients can join a wait
 **Estimate**: 1 day
 
 #### Context
+
 Create the appointment lifecycle state machine. Appointments transition through defined statuses with validation rules.
 
 #### Requirements
+
 - Define valid status transitions:
   ```
   pending → confirmed | cancelled
@@ -1775,6 +1966,7 @@ Create the appointment lifecycle state machine. Appointments transition through 
 - Store status history: `statusHistory: [{ status, changedBy, changedAt, reason }]`
 
 #### Acceptance Criteria
+
 - [ ] Valid transitions succeed
 - [ ] Invalid transitions return 400 (e.g., completed → pending)
 - [ ] Status history recorded with actor and timestamp
@@ -1783,6 +1975,7 @@ Create the appointment lifecycle state machine. Appointments transition through 
 - [ ] Only authorized roles can change status
 
 #### Test Criteria
+
 - Pending → confirmed → 200
 - Pending → completed → 400 (invalid transition)
 - Completed → pending → 400 (terminal state)
@@ -1790,9 +1983,11 @@ Create the appointment lifecycle state machine. Appointments transition through 
 - Auto no-show job triggers after 30 min (mock timer)
 
 #### Dependencies
+
 - M7-1
 
 ---
+
 ---
 
 ## M8 — Payments (Razorpay)
@@ -1807,9 +2002,11 @@ Create the appointment lifecycle state machine. Appointments transition through 
 **Estimate**: 2 days
 
 #### Context
+
 Integrate Razorpay payment gateway. Create payment orders when patients proceed to pay for appointments.
 
 #### Requirements
+
 - Install `razorpay@2.9.8`
 - Create `src/config/razorpay.ts` — initialize Razorpay instance with key_id and key_secret from env
 - Create `Payment.model.ts`: appointmentId, patientId, amount, currency (INR), status (created/paid/failed/refunded), method, razorpayOrderId, razorpayPaymentId, razorpaySignature, refundId, refundAmount, receiptNumber, invoiceUrl, paidAt, refundedAt
@@ -1823,6 +2020,7 @@ Integrate Razorpay payment gateway. Create payment orders when patients proceed 
 - Frontend: install Razorpay checkout script, create payment service
 
 #### Acceptance Criteria
+
 - [ ] Razorpay order created with correct amount
 - [ ] Payment record saved in DB with razorpayOrderId
 - [ ] Receipt number generated
@@ -1831,12 +2029,14 @@ Integrate Razorpay payment gateway. Create payment orders when patients proceed 
 - [ ] Different fees for in-person vs. telemedicine
 
 #### Test Criteria
+
 - Create order → Razorpay API called (mock) → orderId returned
 - Payment record created in DB with status: created
 - Order amount matches appointment type fee
 - Invalid appointmentId → 404
 
 #### Dependencies
+
 - M7-1
 
 ---
@@ -1847,9 +2047,11 @@ Integrate Razorpay payment gateway. Create payment orders when patients proceed 
 **Estimate**: 2 days
 
 #### Context
+
 After patient completes payment on Razorpay checkout, verify the payment signature on the backend and confirm the appointment.
 
 #### Requirements
+
 - Create `POST /api/v1/payments/verify`:
   - Receive: razorpay_order_id, razorpay_payment_id, razorpay_signature
   - Verify signature using Razorpay's HMAC SHA256 verification
@@ -1868,6 +2070,7 @@ After patient completes payment on Razorpay checkout, verify the payment signatu
   - Handle payment modal close (user cancelled)
 
 #### Acceptance Criteria
+
 - [ ] Valid payment verified → appointment confirmed
 - [ ] Invalid signature → verification fails with 400
 - [ ] Razorpay checkout modal opens in patient app
@@ -1877,6 +2080,7 @@ After patient completes payment on Razorpay checkout, verify the payment signatu
 - [ ] Webhook handler processes events as backup
 
 #### Test Criteria
+
 - Verify with valid signature → 200 + payment confirmed
 - Verify with invalid signature → 400
 - After verification, appointment status is `confirmed`
@@ -1884,6 +2088,7 @@ After patient completes payment on Razorpay checkout, verify the payment signatu
 - Webhook payment.failed → appointment cancelled
 
 #### Dependencies
+
 - M8-1, M7-3
 
 ---
@@ -1894,9 +2099,11 @@ After patient completes payment on Razorpay checkout, verify the payment signatu
 **Estimate**: 1 day
 
 #### Context
+
 Process refunds via Razorpay when appointments are cancelled within the refund policy window.
 
 #### Requirements
+
 - Create `payment.service.ts` → `processRefund(appointmentId)`:
   - Get payment record, verify status is `paid`
   - Calculate refund amount based on cancellation policy
@@ -1909,6 +2116,7 @@ Process refunds via Razorpay when appointments are cancelled within the refund p
 - Track refund status in payment model
 
 #### Acceptance Criteria
+
 - [ ] Cancellation triggers automatic refund calculation
 - [ ] Full refund when cancelled 24h+ before
 - [ ] Partial refund (50%) when cancelled 12-24h before
@@ -1918,6 +2126,7 @@ Process refunds via Razorpay when appointments are cancelled within the refund p
 - [ ] Admin can force full refund regardless of policy
 
 #### Test Criteria
+
 - Cancel 24h+ before → full refund initiated (mock Razorpay)
 - Cancel 18h before → 50% refund
 - Cancel 6h before → no refund
@@ -1925,6 +2134,7 @@ Process refunds via Razorpay when appointments are cancelled within the refund p
 - Refund webhook → payment status updated
 
 #### Dependencies
+
 - M8-2, M7-2
 
 ---
@@ -1935,9 +2145,11 @@ Process refunds via Razorpay when appointments are cancelled within the refund p
 **Estimate**: 1 day
 
 #### Context
+
 Generate downloadable PDF invoices for completed payments with all required details including GST information.
 
 #### Requirements
+
 - Install `pdfkit`
 - Create `src/utils/pdfGenerator.ts`:
   - Generate invoice PDF with: hospital logo, invoice number, date, patient name, doctor name, appointment date/time, amount, payment method, transaction ID, GST breakdown (if applicable)
@@ -1948,6 +2160,7 @@ Generate downloadable PDF invoices for completed payments with all required deta
 - Frontend: "Download Invoice" button on payment history and appointment details
 
 #### Acceptance Criteria
+
 - [ ] PDF invoice generated after payment verification
 - [ ] Invoice contains all required fields
 - [ ] PDF uploaded to Cloudinary
@@ -1956,12 +2169,14 @@ Generate downloadable PDF invoices for completed payments with all required deta
 - [ ] Professional layout with hospital branding
 
 #### Test Criteria
+
 - Generate invoice → PDF created with correct data
 - Download invoice → returns PDF content-type
 - Invoice for non-existent payment → 404
 - Invoice for unpaid appointment → 400
 
 #### Dependencies
+
 - M8-2
 
 ---
@@ -1972,9 +2187,11 @@ Generate downloadable PDF invoices for completed payments with all required deta
 **Estimate**: 1 day
 
 #### Context
+
 Build the payment history page in the patient app showing all transactions with status, amounts, and invoice download options.
 
 #### Requirements
+
 - Create RTK Query: `paymentApi.ts` (getPaymentHistory, downloadInvoice)
 - Create Payment History page or section within Profile:
   - Table/list: date, doctor name, amount, payment method, status badge, actions
@@ -1987,6 +2204,7 @@ Build the payment history page in the patient app showing all transactions with 
 - Empty state for no payments
 
 #### Acceptance Criteria
+
 - [ ] Payment history shows all user's transactions
 - [ ] Status badges render with correct colors
 - [ ] Invoice download works for paid transactions
@@ -1995,14 +2213,17 @@ Build the payment history page in the patient app showing all transactions with 
 - [ ] Responsive layout (table → cards on mobile)
 
 #### Test Criteria
+
 - Component test: renders payment list from mock data
 - Component test: invoice download button triggers download
 - Component test: status badges show correct colors
 
 #### Dependencies
+
 - M8-4
 
 ---
+
 ---
 
 ## M9 — Admin Dashboard
@@ -2017,9 +2238,11 @@ Build the payment history page in the patient app showing all transactions with 
 **Estimate**: 2 days
 
 #### Context
+
 Build the admin authentication flow and the main admin layout with sidebar navigation, top bar, and protected routes.
 
 #### Requirements
+
 - Backend: Admin login uses same auth system but validates role is admin/superAdmin/receptionist/doctor
 - Frontend (Admin App):
   - Login page (email + password)
@@ -2034,6 +2257,7 @@ Build the admin authentication flow and the main admin layout with sidebar navig
 - Create auth slice for admin app
 
 #### Acceptance Criteria
+
 - [ ] Admin login works with correct credentials
 - [ ] Patient role cannot login to admin app (403)
 - [ ] Sidebar renders all navigation items
@@ -2044,6 +2268,7 @@ Build the admin authentication flow and the main admin layout with sidebar navig
 - [ ] Role-based menu: receptionist sees subset
 
 #### Test Criteria
+
 - Login with admin credentials → redirected to dashboard
 - Login with patient credentials → error shown
 - Sidebar renders correct items for admin role
@@ -2051,6 +2276,7 @@ Build the admin authentication flow and the main admin layout with sidebar navig
 - Unauthenticated route → redirect to login
 
 #### Dependencies
+
 - M5-5
 
 ---
@@ -2061,9 +2287,11 @@ Build the admin authentication flow and the main admin layout with sidebar navig
 **Estimate**: 2 days
 
 #### Context
+
 Build the main admin dashboard showing real-time KPIs, charts, and recent activity feed.
 
 #### Requirements
+
 - Backend: Create `analytics.service.ts` and `GET /api/v1/admin/dashboard`:
   - Today's KPIs: total appointments, completed, pending, cancelled, no-shows, revenue
   - Weekly/monthly revenue chart data (past 12 weeks/months)
@@ -2081,6 +2309,7 @@ Build the main admin dashboard showing real-time KPIs, charts, and recent activi
 - Date range selector for charts (this week/month/quarter/year)
 
 #### Acceptance Criteria
+
 - [ ] Dashboard loads all KPIs correctly
 - [ ] Revenue chart renders with correct data
 - [ ] Pie chart shows department distribution
@@ -2091,12 +2320,14 @@ Build the main admin dashboard showing real-time KPIs, charts, and recent activi
 - [ ] KPI cards show trend arrows (up/down vs last period)
 
 #### Test Criteria
+
 - Dashboard API returns correct KPI calculations
 - Revenue chart data matches DB aggregations
 - Department distribution sums to total appointments
 - Frontend renders charts without errors
 
 #### Dependencies
+
 - M9-1
 
 ---
@@ -2107,9 +2338,11 @@ Build the main admin dashboard showing real-time KPIs, charts, and recent activi
 **Estimate**: 2 days
 
 #### Context
+
 Build the doctor management page where admins can add, edit, view, and remove doctors. Includes availability schedule configuration and fee setup.
 
 #### Requirements
+
 - Backend routes:
   - `POST /api/v1/admin/doctors` — add doctor (create user account + doctor profile)
   - `PUT /api/v1/admin/doctors/:id` — update doctor
@@ -2125,6 +2358,7 @@ Build the doctor management page where admins can add, edit, view, and remove do
 - Create RTK Query: `adminDoctorApi.ts`
 
 #### Acceptance Criteria
+
 - [ ] Admin can add a new doctor (creates user + doctor profile)
 - [ ] Doctor list with search and department filter
 - [ ] Edit doctor updates all fields
@@ -2134,12 +2368,14 @@ Build the doctor management page where admins can add, edit, view, and remove do
 - [ ] Validation on all form fields
 
 #### Test Criteria
+
 - Add doctor API → user + doctor created in DB
 - Edit doctor API → fields updated
 - Deactivate doctor → isActive false, future appointments cancelled
 - Frontend form validation prevents invalid data
 
 #### Dependencies
+
 - M6-1, M9-1
 
 ---
@@ -2150,9 +2386,11 @@ Build the doctor management page where admins can add, edit, view, and remove do
 **Estimate**: 2 days
 
 #### Context
+
 Build the appointment management page with both calendar view (FullCalendar) and list view. Admins can filter, search, change status, and create walk-in appointments.
 
 #### Requirements
+
 - Backend:
   - `GET /api/v1/admin/appointments` — list all with filters (doctor, department, status, date range, mode)
   - `POST /api/v1/admin/appointments` — create walk-in appointment (no payment required)
@@ -2173,6 +2411,7 @@ Build the appointment management page with both calendar view (FullCalendar) and
   - Status change with confirmation
 
 #### Acceptance Criteria
+
 - [ ] Calendar view shows appointments as colored events
 - [ ] Day/week/month views work
 - [ ] Clicking event opens detail modal
@@ -2182,6 +2421,7 @@ Build the appointment management page with both calendar view (FullCalendar) and
 - [ ] Appointments color-coded by status
 
 #### Test Criteria
+
 - Admin appointments API returns filtered results
 - Walk-in creation creates appointment without payment
 - Status change updates correctly
@@ -2189,6 +2429,7 @@ Build the appointment management page with both calendar view (FullCalendar) and
 - Filters reduce displayed results correctly
 
 #### Dependencies
+
 - M7-6, M9-1
 
 ---
@@ -2199,9 +2440,11 @@ Build the appointment management page with both calendar view (FullCalendar) and
 **Estimate**: 1 day
 
 #### Context
+
 Build the patient management page for admins to view, search, and manage patient records.
 
 #### Requirements
+
 - Backend:
   - `GET /api/v1/admin/patients` — list all patients with search (name, email, phone), pagination
   - `GET /api/v1/admin/patients/:id` — patient detail with appointment history
@@ -2215,6 +2458,7 @@ Build the patient management page for admins to view, search, and manage patient
   - Walk-in patient registration form (name, phone, email — simplified)
 
 #### Acceptance Criteria
+
 - [ ] Patient list searchable by name, email, phone
 - [ ] Pagination works
 - [ ] Patient detail shows full history
@@ -2222,12 +2466,14 @@ Build the patient management page for admins to view, search, and manage patient
 - [ ] Total visits and last visit date calculated correctly
 
 #### Test Criteria
+
 - Search by name → matching patients returned
 - Search by phone → correct patient found
 - Patient detail includes appointment history
 - Walk-in registration creates user in DB
 
 #### Dependencies
+
 - M9-1
 
 ---
@@ -2238,9 +2484,11 @@ Build the patient management page for admins to view, search, and manage patient
 **Estimate**: 1 day
 
 #### Context
+
 Build department management for admins to create, edit, delete departments and view doctor allocation per department.
 
 #### Requirements
+
 - Backend:
   - `POST /api/v1/admin/departments` — create department
   - `PUT /api/v1/admin/departments/:id` — update
@@ -2253,20 +2501,24 @@ Build department management for admins to create, edit, delete departments and v
   - Drag-and-drop doctor assignment (optional)
 
 #### Acceptance Criteria
+
 - [ ] CRUD operations work for departments
 - [ ] Doctor count per department is accurate
 - [ ] Department deactivation handled gracefully
 - [ ] Admin can view doctors per department
 
 #### Test Criteria
+
 - Create department → 201 + department
 - Delete department with assigned doctors → warning/error
 - Doctor count matches actual doctor assignments
 
 #### Dependencies
+
 - M6-1, M9-1
 
 ---
+
 ---
 
 ## M10 — Notifications
@@ -2281,9 +2533,11 @@ Build department management for admins to create, edit, delete departments and v
 **Estimate**: 2 days
 
 #### Context
+
 Build the email notification system with templated HTML emails for all appointment lifecycle events.
 
 #### Requirements
+
 - Configure Nodemailer with SMTP transport
 - Create email templates (`src/utils/emailTemplates.ts`):
   - Welcome email (after registration)
@@ -2299,6 +2553,7 @@ Build the email notification system with templated HTML emails for all appointme
 - Create `src/jobs/email.job.ts` — BullMQ worker for email queue
 
 #### Acceptance Criteria
+
 - [ ] Emails sent via BullMQ queue (non-blocking)
 - [ ] All 7 email templates created with proper formatting
 - [ ] Dynamic data injected into templates (patient name, doctor name, etc.)
@@ -2307,12 +2562,14 @@ Build the email notification system with templated HTML emails for all appointme
 - [ ] Email sending logged in winston
 
 #### Test Criteria
+
 - Send email via service → job added to queue
 - Email template renders with correct data
 - Failed SMTP → job retries
 - All templates produce valid HTML
 
 #### Dependencies
+
 - M5-4 (Nodemailer config already created)
 
 ---
@@ -2323,9 +2580,11 @@ Build the email notification system with templated HTML emails for all appointme
 **Estimate**: 2 days
 
 #### Context
+
 Implement browser push notifications using Firebase Cloud Messaging for real-time alerts.
 
 #### Requirements
+
 - Install `firebase-admin` on backend
 - Create `src/config/firebase.ts` — initialize Firebase Admin SDK
 - Create `notification.service.ts` → `sendPushNotification(userId, title, body, data)`
@@ -2342,6 +2601,7 @@ Implement browser push notifications using Firebase Cloud Messaging for real-tim
 - Queue push notifications via BullMQ
 
 #### Acceptance Criteria
+
 - [ ] Permission prompt shown on first login
 - [ ] FCM token stored in user record
 - [ ] Push notification received when appointment confirmed
@@ -2350,12 +2610,14 @@ Implement browser push notifications using Firebase Cloud Messaging for real-tim
 - [ ] Push notifications queued via BullMQ
 
 #### Test Criteria
+
 - Register FCM token → stored in DB
 - Send push → Firebase API called (mock)
 - Foreground notification → toast displayed
 - Failed push → logged and retried
 
 #### Dependencies
+
 - M5-2
 
 ---
@@ -2366,9 +2628,11 @@ Implement browser push notifications using Firebase Cloud Messaging for real-tim
 **Estimate**: 2 days
 
 #### Context
+
 Implement Socket.io for real-time updates — appointment status changes, new notifications, and dashboard live data.
 
 #### Requirements
+
 - Install `socket.io` on backend, `socket.io-client` on frontends
 - Create `src/socket/socket.ts`:
   - Initialize Socket.io with Express server
@@ -2388,6 +2652,7 @@ Implement Socket.io for real-time updates — appointment status changes, new no
 - Configure Redis adapter for Socket.io (multi-instance scaling)
 
 #### Acceptance Criteria
+
 - [ ] Socket.io connects with JWT authentication
 - [ ] Unauthorized connections rejected
 - [ ] Appointment status change emits to patient in real-time
@@ -2397,6 +2662,7 @@ Implement Socket.io for real-time updates — appointment status changes, new no
 - [ ] Redis adapter configured for scaling
 
 #### Test Criteria
+
 - Socket connects with valid token → success
 - Socket connects with invalid token → rejected
 - Status change → event received by correct user
@@ -2404,6 +2670,7 @@ Implement Socket.io for real-time updates — appointment status changes, new no
 - Disconnect and reconnect works
 
 #### Dependencies
+
 - M5-2, M7-6
 
 ---
@@ -2414,9 +2681,11 @@ Implement Socket.io for real-time updates — appointment status changes, new no
 **Estimate**: 1 day
 
 #### Context
+
 Set up BullMQ job queues for background processing — appointment reminders, email delivery, and auto no-show marking.
 
 #### Requirements
+
 - Install `bullmq@6.1.2`
 - Create queue manager: `src/jobs/queue.ts`
   - Reminder queue: send 24h and 1h reminders
@@ -2433,6 +2702,7 @@ Set up BullMQ job queues for background processing — appointment reminders, em
 - Retry configuration: 3 retries with exponential backoff
 
 #### Acceptance Criteria
+
 - [ ] Reminder scheduled when appointment confirmed
 - [ ] 24h reminder sends email + push
 - [ ] 1h reminder sends SMS + push
@@ -2442,12 +2712,14 @@ Set up BullMQ job queues for background processing — appointment reminders, em
 - [ ] Queue monitoring available for admins
 
 #### Test Criteria
+
 - Confirm appointment → reminder jobs created in queue
 - Cancel appointment → reminder jobs removed
 - Job execution → email/push service called
 - Failed job → retry with backoff
 
 #### Dependencies
+
 - M10-1, M10-2
 
 ---
@@ -2458,9 +2730,11 @@ Set up BullMQ job queues for background processing — appointment reminders, em
 **Estimate**: 1 day
 
 #### Context
+
 Build the in-app notification center — bell icon with unread count, notification feed, and mark as read functionality.
 
 #### Requirements
+
 - Create `Notification.model.ts`: userId, title, message, type (appointment/payment/system), link (deeplink to relevant page), isRead, createdAt
 - Backend:
   - `GET /api/v1/notifications` — paginated list (newest first)
@@ -2476,6 +2750,7 @@ Build the in-app notification center — bell icon with unread count, notificati
   - Real-time update via Socket.io (new notification → increment badge)
 
 #### Acceptance Criteria
+
 - [ ] Bell icon shows unread count
 - [ ] Notification feed shows list with read/unread styling
 - [ ] Mark as read works (individual and all)
@@ -2484,15 +2759,18 @@ Build the in-app notification center — bell icon with unread count, notificati
 - [ ] Notifications paginated (load more on scroll)
 
 #### Test Criteria
+
 - Get notifications → returns user's notifications
 - Mark as read → isRead updated
 - Unread count matches actual unread
 - Socket.io event → badge incremented
 
 #### Dependencies
+
 - M10-3
 
 ---
+
 ---
 
 ## M11 — Telemedicine
@@ -2507,9 +2785,11 @@ Build the in-app notification center — bell icon with unread count, notificati
 **Estimate**: 1 day
 
 #### Context
+
 Set up Daily.co SDK on the backend for creating and managing video rooms for telemedicine appointments.
 
 #### Requirements
+
 - Install `@daily-co/daily-js`
 - Create `src/config/daily.ts` — Daily.co API configuration
 - Create `daily.service.ts`:
@@ -2522,6 +2802,7 @@ Set up Daily.co SDK on the backend for creating and managing video rooms for tel
 - Clean up expired rooms via scheduled job (node-cron)
 
 #### Acceptance Criteria
+
 - [ ] Daily.co room created on telemedicine appointment confirmation
 - [ ] Room URL stored in appointment record
 - [ ] Meeting token generated for patient and doctor (different permissions)
@@ -2530,12 +2811,14 @@ Set up Daily.co SDK on the backend for creating and managing video rooms for tel
 - [ ] Meeting endpoint returns room URL + token
 
 #### Test Criteria
+
 - Create room → Daily.co API called (mock) → URL returned
 - Get meeting → returns URL + valid token
 - Room creation for in-person appointment → skipped
 - Expired room cleanup job runs without errors
 
 #### Dependencies
+
 - M7-1
 
 ---
@@ -2546,9 +2829,11 @@ Set up Daily.co SDK on the backend for creating and managing video rooms for tel
 **Estimate**: 2 days
 
 #### Context
+
 Build the video consultation page using Daily.co's Prebuilt UI component for the patient app.
 
 #### Requirements
+
 - Install `@daily-co/daily-react`
 - Create VideoCall page (`pages/VideoCall/`):
   - Pre-call screen: appointment details, doctor name, camera/mic preview, "Join Call" button
@@ -2565,6 +2850,7 @@ Build the video consultation page using Daily.co's Prebuilt UI component for the
 - Responsive: works on desktop and mobile browsers
 
 #### Acceptance Criteria
+
 - [ ] Pre-call screen shows appointment details and camera preview
 - [ ] "Join Call" fetches token and connects to Daily.co room
 - [ ] Video call interface shows camera, mic, chat, screenshare controls
@@ -2574,12 +2860,14 @@ Build the video consultation page using Daily.co's Prebuilt UI component for the
 - [ ] Waiting room if doctor hasn't joined
 
 #### Test Criteria
+
 - Component test: pre-call screen renders appointment details
 - Component test: join button disabled outside time window
 - Component test: post-call screen renders with action buttons
 - E2E test: navigate to video call page → see pre-call screen
 
 #### Dependencies
+
 - M11-1, M7-4
 
 ---
@@ -2590,9 +2878,11 @@ Build the video consultation page using Daily.co's Prebuilt UI component for the
 **Estimate**: 1 day
 
 #### Context
+
 Add video call capability to the admin app so doctors can join telemedicine consultations from their dashboard.
 
 #### Requirements
+
 - Create VideoCall page in admin app (similar to patient but with doctor perspective)
 - Doctor's today's appointments show "Join Call" button for telemedicine
 - Doctor has owner permissions in Daily.co room (can mute participants, end call for all)
@@ -2603,17 +2893,20 @@ Add video call capability to the admin app so doctors can join telemedicine cons
 - Add "Active Consultations" section to doctor's dashboard
 
 #### Acceptance Criteria
+
 - [ ] Doctor sees telemedicine appointments with "Join Call"
 - [ ] Doctor joins as room owner (higher permissions)
 - [ ] Post-call: option to write prescription and mark completed
 - [ ] Active consultations section shows ongoing calls
 
 #### Test Criteria
+
 - Doctor's appointments show Join Call for telemedicine
 - Doctor joins with owner permissions
 - Mark completed after call → status updated
 
 #### Dependencies
+
 - M11-1, M9-4
 
 ---
@@ -2624,9 +2917,11 @@ Add video call capability to the admin app so doctors can join telemedicine cons
 **Estimate**: 1 day
 
 #### Context
+
 Enable text chat and file sharing during video consultations for sharing reports, prescriptions, and notes.
 
 #### Requirements
+
 - Use Daily.co's built-in chat feature (already available in Prebuilt UI)
 - Additional chat features via Socket.io for persistence:
   - Save chat messages to DB (linked to appointmentId)
@@ -2637,6 +2932,7 @@ Enable text chat and file sharing during video consultations for sharing reports
 - Display chat history in appointment detail page (both apps)
 
 #### Acceptance Criteria
+
 - [ ] Text chat works during video call
 - [ ] Files can be shared (upload → URL in chat)
 - [ ] Chat messages saved to DB
@@ -2644,14 +2940,17 @@ Enable text chat and file sharing during video consultations for sharing reports
 - [ ] File size limit enforced (10MB)
 
 #### Test Criteria
+
 - Send chat message → saved in DB
 - Upload file in chat → Cloudinary URL in message
 - View chat history after call → messages displayed
 
 #### Dependencies
+
 - M11-2, M11-3
 
 ---
+
 ---
 
 ## M12 — Records & Prescriptions
@@ -2666,9 +2965,11 @@ Enable text chat and file sharing during video consultations for sharing reports
 **Estimate**: 2 days
 
 #### Context
+
 Build the medical records system where patients can upload, view, download, and delete their lab reports, scans, and documents.
 
 #### Requirements
+
 - Create `MedicalRecord.model.ts`: patientId, type (labReport/scan/prescription/other), title, description, fileUrl, fileType (pdf/jpeg/png), fileSize, uploadedBy (patient/doctor), appointmentId (optional), createdAt
 - Backend routes:
   - `POST /api/v1/records/upload` — upload file (Multer + Cloudinary)
@@ -2684,6 +2985,7 @@ Build the medical records system where patients can upload, view, download, and 
   - File preview modal (images in lightbox, PDFs in iframe)
 
 #### Acceptance Criteria
+
 - [ ] Files upload to Cloudinary successfully
 - [ ] File type validation rejects invalid types
 - [ ] File size limit enforced (10MB)
@@ -2694,6 +2996,7 @@ Build the medical records system where patients can upload, view, download, and 
 - [ ] Preview modal works for images and PDFs
 
 #### Test Criteria
+
 - Upload valid file → record created with Cloudinary URL
 - Upload invalid type → 400
 - Upload oversized file → 400
@@ -2702,6 +3005,7 @@ Build the medical records system where patients can upload, view, download, and 
 - Download → returns file
 
 #### Dependencies
+
 - M5-6 (Cloudinary config)
 
 ---
@@ -2712,9 +3016,11 @@ Build the medical records system where patients can upload, view, download, and 
 **Estimate**: 2 days
 
 #### Context
+
 Build the digital prescription system. Doctors create prescriptions after consultations containing medicines, dosage, instructions, and notes. Prescriptions are saved and also generated as downloadable PDFs.
 
 #### Requirements
+
 - Create `Prescription.model.ts`: appointmentId, doctorId, patientId, medicines (array of {name, dosage, frequency, duration, instructions}), diagnosis, notes, pdfUrl, createdAt
 - Backend routes (doctor/admin):
   - `POST /api/v1/prescriptions` — create prescription
@@ -2739,6 +3045,7 @@ Build the digital prescription system. Doctors create prescriptions after consul
   - Download prescription PDF
 
 #### Acceptance Criteria
+
 - [ ] Doctor can create prescription with multiple medicines
 - [ ] Prescription PDF generated with professional layout
 - [ ] Patient can view and download prescription
@@ -2747,12 +3054,14 @@ Build the digital prescription system. Doctors create prescriptions after consul
 - [ ] PDF contains all required information
 
 #### Test Criteria
+
 - Create prescription → saved in DB + PDF generated
 - Get prescription by appointment → returns correct prescription
 - Download PDF → returns valid PDF file
 - Patient can only view their own prescriptions
 
 #### Dependencies
+
 - M8-4 (PDF generation), M7-1
 
 ---
@@ -2763,9 +3072,11 @@ Build the digital prescription system. Doctors create prescriptions after consul
 **Estimate**: 1 day
 
 #### Context
+
 Build a visual timeline showing all medical events for a patient — appointments, prescriptions, record uploads — in chronological order.
 
 #### Requirements
+
 - Frontend (Patient App):
   - Timeline page showing events chronologically (most recent first)
   - Event types with distinct icons and colors:
@@ -2780,6 +3091,7 @@ Build a visual timeline showing all medical events for a patient — appointment
 - Responsive timeline layout (vertical on mobile)
 
 #### Acceptance Criteria
+
 - [ ] Timeline shows all event types in chronological order
 - [ ] Events grouped by date range
 - [ ] Event icons and colors distinguish types
@@ -2788,11 +3100,13 @@ Build a visual timeline showing all medical events for a patient — appointment
 - [ ] Responsive layout
 
 #### Test Criteria
+
 - Component test: renders events from mock data
 - Component test: date grouping works correctly
 - Component test: filter hides/shows event types
 
 #### Dependencies
+
 - M12-1, M12-2, M7-4
 
 ---
@@ -2803,9 +3117,11 @@ Build a visual timeline showing all medical events for a patient — appointment
 **Estimate**: 1 day
 
 #### Context
+
 Allow doctors and admins to view patient medical records during consultations. Doctors can also upload records on behalf of patients.
 
 #### Requirements
+
 - Backend:
   - Admin/doctor can access patient records: `GET /api/v1/admin/patients/:id/records`
   - Doctor can upload records for patient: `POST /api/v1/admin/patients/:id/records`
@@ -2817,20 +3133,24 @@ Allow doctors and admins to view patient medical records during consultations. D
   - Access log visible to superAdmin
 
 #### Acceptance Criteria
+
 - [ ] Doctor can view patient's records during consultation
 - [ ] Doctor can upload records for patient
 - [ ] Access logged in audit trail
 - [ ] Records tab visible in patient detail page
 
 #### Test Criteria
+
 - Doctor accesses patient records → access logged
 - Upload record for patient → saved with uploadedBy: doctor
 - SuperAdmin can view access logs
 
 #### Dependencies
+
 - M12-1, M9-5
 
 ---
+
 ---
 
 ## M13 — Admin Advanced
@@ -2845,9 +3165,11 @@ Allow doctors and admins to view patient medical records during consultations. D
 **Estimate**: 2 days
 
 #### Context
+
 Build the financial management section with revenue analytics, payment tracking, and exportable reports.
 
 #### Requirements
+
 - Backend:
   - `GET /api/v1/admin/revenue` — revenue data with filters (date range, doctor, department, payment method)
   - `GET /api/v1/admin/payments` — all payments with search/filter/pagination
@@ -2861,6 +3183,7 @@ Build the financial management section with revenue analytics, payment tracking,
   - Date range selector
 
 #### Acceptance Criteria
+
 - [ ] Revenue KPIs calculate correctly
 - [ ] Charts render with real data
 - [ ] Filters work (doctor, department, date range)
@@ -2869,11 +3192,13 @@ Build the financial management section with revenue analytics, payment tracking,
 - [ ] Revenue breakdown matches total
 
 #### Test Criteria
+
 - Revenue API returns correct aggregations
 - CSV export contains expected columns and data
 - Date range filter returns correct subset
 
 #### Dependencies
+
 - M9-2, M8-2
 
 ---
@@ -2884,9 +3209,11 @@ Build the financial management section with revenue analytics, payment tracking,
 **Estimate**: 1 day
 
 #### Context
+
 Generate GST-compliant tax reports for the hospital's accounting needs.
 
 #### Requirements
+
 - Backend:
   - `GET /api/v1/admin/reports/gst` — GST report for date range
   - Calculate: taxable amount, CGST, SGST, IGST, total tax, total with tax
@@ -2902,17 +3229,20 @@ Generate GST-compliant tax reports for the hospital's accounting needs.
   - Export as CSV/PDF
 
 #### Acceptance Criteria
+
 - [ ] GST report calculates tax correctly
 - [ ] Monthly breakdown for quarterly filing
 - [ ] GSTIN and HSN codes included in report
 - [ ] Export as CSV and PDF
 
 #### Test Criteria
+
 - GST calculation matches manual calculation
 - Export contains all required tax fields
 - Date range filter works correctly
 
 #### Dependencies
+
 - M13-1
 
 ---
@@ -2923,9 +3253,11 @@ Generate GST-compliant tax reports for the hospital's accounting needs.
 **Estimate**: 2 days
 
 #### Context
+
 Build the hospital settings page where admins configure hospital profile, working hours, holidays, and booking policies.
 
 #### Requirements
+
 - Backend:
   - `GET /api/v1/admin/settings` — get hospital settings
   - `PUT /api/v1/admin/settings/profile` — update hospital profile
@@ -2941,6 +3273,7 @@ Build the hospital settings page where admins configure hospital profile, workin
 - Only superAdmin and admin can access settings
 
 #### Acceptance Criteria
+
 - [ ] Hospital profile editable with logo upload
 - [ ] Working hours configurable per day
 - [ ] Holidays can be added and removed
@@ -2949,12 +3282,14 @@ Build the hospital settings page where admins configure hospital profile, workin
 - [ ] Only admin/superAdmin can access
 
 #### Test Criteria
+
 - Update profile → changes saved and reflected
 - Add holiday → no slots generated for that date
 - Change cancellation window → refund logic uses new value
 - Receptionist cannot access settings → 403
 
 #### Dependencies
+
 - M9-1
 
 ---
@@ -2965,9 +3300,11 @@ Build the hospital settings page where admins configure hospital profile, workin
 **Estimate**: 1 day
 
 #### Context
+
 Implement comprehensive audit logging for all administrative actions for compliance and security monitoring.
 
 #### Requirements
+
 - Create audit log middleware:
   - Log all write operations (POST, PUT, PATCH, DELETE) on admin routes
   - Record: userId, action, resource, resourceId, changes (before/after), IP address, userAgent, timestamp
@@ -2983,6 +3320,7 @@ Implement comprehensive audit logging for all administrative actions for complia
   - Export as CSV
 
 #### Acceptance Criteria
+
 - [ ] All admin write operations automatically logged
 - [ ] Audit logs immutable (no edit/delete API)
 - [ ] Filterable by user, action, resource, date
@@ -2991,12 +3329,14 @@ Implement comprehensive audit logging for all administrative actions for complia
 - [ ] Export as CSV works
 
 #### Test Criteria
+
 - Create doctor → audit log entry created
 - Update appointment status → log with before/after
 - Delete request on audit log → 405 Method Not Allowed
 - Non-superAdmin accessing logs → 403
 
 #### Dependencies
+
 - M9-1
 
 ---
@@ -3007,9 +3347,11 @@ Implement comprehensive audit logging for all administrative actions for complia
 **Estimate**: 1 day
 
 #### Context
+
 Allow admins to invite team members (receptionists, lab technicians, other admins) via email with pre-assigned roles.
 
 #### Requirements
+
 - Backend:
   - `POST /api/v1/admin/invite` — send invite email with role
   - Generate invite token (24h expiry)
@@ -3025,6 +3367,7 @@ Allow admins to invite team members (receptionists, lab technicians, other admin
 - Invite email template with accept link
 
 #### Acceptance Criteria
+
 - [ ] Invite email sent with unique link
 - [ ] Accept invite creates account with assigned role
 - [ ] Expired invite token returns error
@@ -3033,12 +3376,14 @@ Allow admins to invite team members (receptionists, lab technicians, other admin
 - [ ] Deactivate prevents login
 
 #### Test Criteria
+
 - Send invite → token created, email sent
 - Accept invite → user created with correct role
 - Expired token → 400
 - Role change → updated in DB
 
 #### Dependencies
+
 - M10-1, M5-5
 
 ---
@@ -3049,9 +3394,11 @@ Allow admins to invite team members (receptionists, lab technicians, other admin
 **Estimate**: 2 days
 
 #### Context
+
 Build the reports section with pre-built report templates and export functionality.
 
 #### Requirements
+
 - Backend:
   - `GET /api/v1/admin/reports/appointments` — appointment summary report
   - `GET /api/v1/admin/reports/doctors` — doctor performance report
@@ -3070,6 +3417,7 @@ Build the reports section with pre-built report templates and export functionali
   - Export: CSV and PDF buttons
 
 #### Acceptance Criteria
+
 - [ ] All 4 report types generate correctly
 - [ ] Date range filter works for all reports
 - [ ] Charts render with real data
@@ -3078,15 +3426,18 @@ Build the reports section with pre-built report templates and export functionali
 - [ ] Reports load within 3 seconds
 
 #### Test Criteria
+
 - Appointment report API returns correct aggregations
 - Doctor performance metrics calculated correctly
 - CSV export contains expected columns
 - Date range filter returns correct subset
 
 #### Dependencies
+
 - M9-2, M13-1
 
 ---
+
 ---
 
 ## M14 — Reviews & Polish
@@ -3101,9 +3452,11 @@ Build the reports section with pre-built report templates and export functionali
 **Estimate**: 2 days
 
 #### Context
+
 Build the doctor review and rating system. Patients can rate and review doctors after completed appointments.
 
 #### Requirements
+
 - Create `Review.model.ts`: doctorId, patientId, appointmentId (unique — one review per appointment), rating (1-5), comment, isReported, createdAt
 - Backend:
   - `POST /api/v1/reviews` — create review (only after completed appointment, one per appointment)
@@ -3118,6 +3471,7 @@ Build the doctor review and rating system. Patients can rate and review doctors 
   - Reported reviews moderation page: approve/remove flagged reviews
 
 #### Acceptance Criteria
+
 - [ ] One review per appointment enforced
 - [ ] Only completed appointments can be reviewed
 - [ ] Star rating (1-5) with text comment
@@ -3127,6 +3481,7 @@ Build the doctor review and rating system. Patients can rate and review doctors 
 - [ ] Flagged reviews visible to admin for moderation
 
 #### Test Criteria
+
 - Create review → doctor rating recalculated
 - Duplicate review for same appointment → 409
 - Review for non-completed appointment → 400
@@ -3134,6 +3489,7 @@ Build the doctor review and rating system. Patients can rate and review doctors 
 - Report review → isReported flag set
 
 #### Dependencies
+
 - M7-6, M6-5
 
 ---
@@ -3144,9 +3500,11 @@ Build the doctor review and rating system. Patients can rate and review doctors 
 **Estimate**: 2 days
 
 #### Context
+
 Implement internationalization in both frontend apps using i18next. Support English and Hindi initially, with architecture for adding more languages.
 
 #### Requirements
+
 - Install `i18next`, `react-i18next` in both apps
 - Create translation files:
   ```
@@ -3170,6 +3528,7 @@ Implement internationalization in both frontend apps using i18next. Support Engl
 - Date/time formatting respects locale (dayjs locale)
 
 #### Acceptance Criteria
+
 - [ ] All UI strings use i18n keys (no hardcoded text)
 - [ ] Language switcher toggles between English and Hindi
 - [ ] Selected language persists across sessions
@@ -3178,12 +3537,14 @@ Implement internationalization in both frontend apps using i18next. Support Engl
 - [ ] Adding new language requires only creating JSON files
 
 #### Test Criteria
+
 - Switch to Hindi → all visible text changes
 - Refresh page → language persists
 - Missing translation → falls back to English
 - Date format changes with locale
 
 #### Dependencies
+
 - M7-4, M9-1
 
 ---
@@ -3194,9 +3555,11 @@ Implement internationalization in both frontend apps using i18next. Support Engl
 **Estimate**: 1 day
 
 #### Context
+
 Implement dark/light mode toggle with system preference detection and smooth theme transitions.
 
 #### Requirements
+
 - CSS: Define dark mode design tokens as CSS custom properties
   ```css
   :root { --bg-primary: #ffffff; --text-primary: #1a1a1a; ... }
@@ -3210,6 +3573,7 @@ Implement dark/light mode toggle with system preference detection and smooth the
 - All components must respect theme variables
 
 #### Acceptance Criteria
+
 - [ ] Toggle switches between dark and light themes
 - [ ] System preference detected on first visit
 - [ ] Selection persists across sessions
@@ -3218,12 +3582,14 @@ Implement dark/light mode toggle with system preference detection and smooth the
 - [ ] Charts (Recharts) adapt to dark mode
 
 #### Test Criteria
+
 - Toggle theme → CSS variables change
 - Refresh → theme persists
 - System dark mode → app starts in dark
 - All pages render without visual glitches in dark mode
 
 #### Dependencies
+
 - M0-3, M0-4
 
 ---
@@ -3234,9 +3600,11 @@ Implement dark/light mode toggle with system preference detection and smooth the
 **Estimate**: 1 day
 
 #### Context
+
 Build the help and support section with FAQ, contact form, and emergency information.
 
 #### Requirements
+
 - Frontend (Patient App):
   - Help page with sections:
     - FAQ: accordion with common questions and answers
@@ -3249,6 +3617,7 @@ Build the help and support section with FAQ, contact form, and emergency informa
 - FAQ content managed as static JSON (easily updatable)
 
 #### Acceptance Criteria
+
 - [ ] FAQ accordion works with expand/collapse
 - [ ] Contact form sends email to support
 - [ ] Emergency numbers displayed prominently
@@ -3256,11 +3625,13 @@ Build the help and support section with FAQ, contact form, and emergency informa
 - [ ] Form validation on contact form
 
 #### Test Criteria
+
 - FAQ accordion expands/collapses
 - Contact form submission → email sent
 - Invalid form → validation errors shown
 
 #### Dependencies
+
 - M10-1
 
 ---
@@ -3271,9 +3642,11 @@ Build the help and support section with FAQ, contact form, and emergency informa
 **Estimate**: 2 days
 
 #### Context
+
 Add Framer Motion animations for page transitions, micro-interactions, and hover effects. Perform an accessibility audit and fix issues.
 
 #### Requirements
+
 - Framer Motion animations:
   - Page transitions (fade + slide)
   - Card hover effects (lift + shadow)
@@ -3295,6 +3668,7 @@ Add Framer Motion animations for page transitions, micro-interactions, and hover
 - Test with screen reader (VoiceOver/NVDA basic check)
 
 #### Acceptance Criteria
+
 - [ ] Page transitions are smooth (no janky flashes)
 - [ ] Card hover effects feel premium
 - [ ] Modal animations work (open/close)
@@ -3305,15 +3679,18 @@ Add Framer Motion animations for page transitions, micro-interactions, and hover
 - [ ] Focus trapped in modals
 
 #### Test Criteria
+
 - Keyboard navigation: tab through all pages without getting stuck
 - Color contrast: check primary text and buttons
 - Screen reader: major pages announce correctly
 - Animations: no layout shift during transitions
 
 #### Dependencies
+
 - All frontend pages complete
 
 ---
+
 ---
 
 ## M15 — Production Release
@@ -3328,9 +3705,11 @@ Add Framer Motion animations for page transitions, micro-interactions, and hover
 **Estimate**: 2 days
 
 #### Context
+
 Run performance audits on both frontend apps, optimize bundle sizes, implement code splitting, and ensure fast load times.
 
 #### Requirements
+
 - Frontend optimization:
   - Vite bundle analysis (visualize chunk sizes)
   - Code splitting: lazy load routes with `React.lazy` + `Suspense`
@@ -3352,6 +3731,7 @@ Run performance audits on both frontend apps, optimize bundle sizes, implement c
   - SEO: 90+
 
 #### Acceptance Criteria
+
 - [ ] Lighthouse Performance score ≥ 90
 - [ ] Lighthouse Accessibility score ≥ 90
 - [ ] Bundle size < 300KB (initial load, gzipped)
@@ -3361,12 +3741,14 @@ Run performance audits on both frontend apps, optimize bundle sizes, implement c
 - [ ] Images lazy-loaded below the fold
 
 #### Test Criteria
+
 - Lighthouse audit passes all thresholds
 - Bundle analysis shows no oversized chunks
 - Page load < 2s on throttled 4G
 - API response times < 200ms (cached paths)
 
 #### Dependencies
+
 - All features complete
 
 ---
@@ -3377,9 +3759,11 @@ Run performance audits on both frontend apps, optimize bundle sizes, implement c
 **Estimate**: 1 day
 
 #### Context
+
 Finalize the production Docker setup with proper environment configuration, secrets management, and production-specific optimizations.
 
 #### Requirements
+
 - Review and harden production Dockerfile:
   - Non-root user in container
   - Health check command in Dockerfile
@@ -3405,6 +3789,7 @@ Finalize the production Docker setup with proper environment configuration, secr
   - Redis password set
 
 #### Acceptance Criteria
+
 - [ ] Production Docker runs as non-root user
 - [ ] Health check configured in Dockerfile
 - [ ] All secrets via environment variables (not baked into image)
@@ -3414,12 +3799,14 @@ Finalize the production Docker setup with proper environment configuration, secr
 - [ ] Resource limits set (CPU, memory)
 
 #### Test Criteria
+
 - Build production image → no security warnings
 - Run production stack → all services healthy
 - Health check endpoint responds correctly
 - No secrets visible in `docker inspect`
 
 #### Dependencies
+
 - M3-1, M4-1
 
 ---
@@ -3430,9 +3817,11 @@ Finalize the production Docker setup with proper environment configuration, secr
 **Estimate**: 1 day
 
 #### Context
+
 Create the production deployment pipeline that deploys to the production CloudClusters instance when code is merged to `main`.
 
 #### Requirements
+
 - Create/update `.github/workflows/deploy.yml`:
   - Trigger: push to `main` branch only
   - Jobs: build → push → deploy-production
@@ -3452,6 +3841,7 @@ Create the production deployment pipeline that deploys to the production CloudCl
   - Emergency contacts
 
 #### Acceptance Criteria
+
 - [ ] Merge to `main` triggers production deployment
 - [ ] Rolling update with zero downtime
 - [ ] Health check verification after deploy
@@ -3460,11 +3850,13 @@ Create the production deployment pipeline that deploys to the production CloudCl
 - [ ] Rollback procedure tested
 
 #### Test Criteria
+
 - Merge to `main` → image built and deployed to production
 - Failed health check → automatic rollback
 - Deployment notification sent
 
 #### Dependencies
+
 - M3-3, M4-3
 
 ---
@@ -3475,9 +3867,11 @@ Create the production deployment pipeline that deploys to the production CloudCl
 **Estimate**: 1 day
 
 #### Context
+
 Final pre-launch checklist covering all aspects of the production deployment. Run comprehensive smoke tests on production.
 
 #### Requirements
+
 - Pre-launch checklist:
   - [ ] All environment variables configured on production
   - [ ] SSL certificate valid and auto-renewing
@@ -3506,6 +3900,7 @@ Final pre-launch checklist covering all aspects of the production deployment. Ru
 - Create user-facing release notes
 
 #### Acceptance Criteria
+
 - [ ] All checklist items verified
 - [ ] All smoke tests pass on production
 - [ ] Backup restore tested successfully
@@ -3514,6 +3909,7 @@ Final pre-launch checklist covering all aspects of the production deployment. Ru
 - [ ] Team trained on monitoring and support procedures
 
 #### Test Criteria
+
 - Full booking flow works end-to-end on production
 - Payment processes successfully (live Razorpay)
 - Email notifications received
@@ -3521,31 +3917,33 @@ Final pre-launch checklist covering all aspects of the production deployment. Ru
 - No console errors in production
 
 #### Dependencies
+
 - All previous milestones complete
 
 ---
+
 ---
 
 ## Summary
 
-| Milestone | Issues | Est. Days | Cumulative |
-|:---|:---:|:---:|:---:|
-| M0 — Project Scaffolding | 6 | 7 | Week 1 |
-| M1 — Test Suite Foundation | 4 | 4 | Week 2 |
-| M2 — CI Pipeline | 3 | 4 | Week 2-3 |
-| M3 — Docker & CD | 4 | 4 | Week 3 |
-| M4 — CloudClusters & Domain | 3 | 4 | Week 4 |
-| M5 — Auth & User System | 6 | 9 | Week 5-6 |
-| M6 — Doctor & Search | 5 | 9 | Week 6-7 |
-| M7 — Appointment Booking | 6 | 10 | Week 8-9 |
-| M8 — Payments (Razorpay) | 5 | 7 | Week 9-10 |
-| M9 — Admin Dashboard | 6 | 10 | Week 10-11 |
-| M10 — Notifications | 5 | 8 | Week 12 |
-| M11 — Telemedicine | 4 | 5 | Week 13 |
-| M12 — Records & Prescriptions | 4 | 6 | Week 13-14 |
-| M13 — Admin Advanced | 6 | 9 | Week 14-15 |
-| M14 — Reviews & Polish | 5 | 8 | Week 16 |
-| M15 — Production Release | 4 | 5 | Week 17 |
-| **TOTAL** | **76** | **~109 days** | **~17 weeks** |
+| Milestone                     | Issues |   Est. Days   |  Cumulative   |
+| :---------------------------- | :----: | :-----------: | :-----------: |
+| M0 — Project Scaffolding      |   6    |       7       |    Week 1     |
+| M1 — Test Suite Foundation    |   4    |       4       |    Week 2     |
+| M2 — CI Pipeline              |   3    |       4       |   Week 2-3    |
+| M3 — Docker & CD              |   4    |       4       |    Week 3     |
+| M4 — CloudClusters & Domain   |   3    |       4       |    Week 4     |
+| M5 — Auth & User System       |   6    |       9       |   Week 5-6    |
+| M6 — Doctor & Search          |   5    |       9       |   Week 6-7    |
+| M7 — Appointment Booking      |   6    |      10       |   Week 8-9    |
+| M8 — Payments (Razorpay)      |   5    |       7       |   Week 9-10   |
+| M9 — Admin Dashboard          |   6    |      10       |  Week 10-11   |
+| M10 — Notifications           |   5    |       8       |    Week 12    |
+| M11 — Telemedicine            |   4    |       5       |    Week 13    |
+| M12 — Records & Prescriptions |   4    |       6       |  Week 13-14   |
+| M13 — Admin Advanced          |   6    |       9       |  Week 14-15   |
+| M14 — Reviews & Polish        |   5    |       8       |    Week 16    |
+| M15 — Production Release      |   4    |       5       |    Week 17    |
+| **TOTAL**                     | **76** | **~109 days** | **~17 weeks** |
 
 > **Note**: Estimated days assume a single developer. With a team of 2-3 developers working in parallel (frontend + backend), timeline can be compressed to ~10-12 weeks.

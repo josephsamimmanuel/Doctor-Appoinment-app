@@ -1,4 +1,5 @@
 import type { Server } from 'node:http';
+
 import app from './app.js';
 import { connectMongoDB, disconnectMongoDB } from './config/db.js';
 import { env } from './config/env.js';

@@ -1,11 +1,7 @@
 import { faker } from '@faker-js/faker';
+
 import { AppointmentStatus } from '@repo/shared/constants';
-import {
-  AppointmentMode,
-  BookingType,
-  VisitType,
-  type IAppointment,
-} from '@repo/shared/types';
+import { AppointmentMode, BookingType, type IAppointment, VisitType } from '@repo/shared/types';
 
 function buildTimestamps(): Pick<IAppointment, 'createdAt' | 'updatedAt'> {
   const now = new Date().toISOString();

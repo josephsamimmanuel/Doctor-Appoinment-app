@@ -1,16 +1,17 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
+
 import {
   ACTIVE_APPOINTMENT_STATUSES,
   APPOINTMENT_STATUSES,
   AppointmentStatus,
   HTTP_STATUS,
-  SPECIALTIES,
-  USER_ROLES,
-  UserRole,
   isAppointmentStatus,
   isSpecialization,
   isUserRole,
+  SPECIALTIES,
+  USER_ROLES,
+  UserRole,
 } from '../constants/index.js';
 import { APPOINTMENT_MODES, BOOKING_TYPES, VISIT_TYPES } from '../types/index.js';
 import { PAYMENT_STATUSES, PaymentStatus } from '../types/payment.types.js';

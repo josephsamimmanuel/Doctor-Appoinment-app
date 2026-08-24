@@ -1,6 +1,7 @@
+import { http } from 'msw';
+
 import { SPECIALTIES } from '@repo/shared/constants';
 import type { IDoctor } from '@repo/shared/types';
-import { http } from 'msw';
 
 import { apiBaseUrl, errorResponse, successResponse } from './http.js';
 

@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { isSpecialization } from '@repo/shared/constants';
 import {
   bookAppointmentSchema,
@@ -5,8 +7,6 @@ import {
   registerSchema,
   timeSlotSchema,
 } from '@repo/shared/validators';
-import { describe, expect, it } from 'vitest';
-
 import {
   buildAppointment,
   buildDoctor,

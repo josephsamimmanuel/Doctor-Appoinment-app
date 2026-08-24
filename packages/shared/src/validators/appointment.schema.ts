@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { APPOINTMENT_MODES, VISIT_TYPES } from '../types/appointment.types.js';
 
 export const objectIdSchema = z

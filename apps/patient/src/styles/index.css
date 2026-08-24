@@ -196,7 +196,8 @@
   --transition-fast: all var(--duration-fast) var(--ease-in-out);
   --transition-normal: all var(--duration-normal) var(--ease-in-out);
   --transition-slow: all var(--duration-slow) var(--ease-in-out);
-  --transition-color: color var(--duration-fast) var(--ease-in-out),
+  --transition-color:
+    color var(--duration-fast) var(--ease-in-out),
     background-color var(--duration-fast) var(--ease-in-out),
     border-color var(--duration-fast) var(--ease-in-out);
 
@@ -283,7 +284,8 @@ body {
   background-color: var(--color-bg-secondary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color var(--duration-normal) var(--ease-in-out),
+  transition:
+    background-color var(--duration-normal) var(--ease-in-out),
     color var(--duration-normal) var(--ease-in-out);
 }
 

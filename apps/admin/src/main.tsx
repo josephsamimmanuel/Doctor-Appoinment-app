@@ -1,10 +1,11 @@
+import './styles/index.css';
+
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-import { store } from './app/store.js';
 import App from './App.js';
-import './styles/index.css';
+import { store } from './app/store.js';
 
 const rootElement = document.getElementById('root');
 
