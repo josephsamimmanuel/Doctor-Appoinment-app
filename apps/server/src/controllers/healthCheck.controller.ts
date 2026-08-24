@@ -1,5 +1,7 @@
-import { HTTP_STATUS } from '@repo/shared/constants';
 import type { Request, Response } from 'express';
+
+import { HTTP_STATUS } from '@repo/shared/constants';
+
 import { getMongoStatus } from '../config/db.js';
 import { getRedisStatus } from '../config/redis.js';
 import { ApiResponse } from '../utils/apiResponse.js';

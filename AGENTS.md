@@ -4,160 +4,81 @@ Instructions for AI coding agents working on this repository.
 
 ## Project
 
-Doctor Appointment Booking System — a pnpm + Turborepo monorepo for a patient SPA, admin dashboard, and backend API (MERN + TypeScript per SRS).
+Doctor Appointment Booking System — pnpm + Turborepo monorepo (MERN + TypeScript). Spec: [`docs/SRS_Doctor_Appointment_App.md`](docs/SRS_Doctor_Appointment_App.md). Order: [`docs/MILESTONES.md`](docs/MILESTONES.md). **M0–M1 are in the repo**; next is **M2** (ESLint/Prettier, CI). Do not start later milestones unless that is the task.
 
-| Package | Role |
-|:---|:---|
-| `apps/server` | Express 5.2 API — health endpoint, middleware stack, MongoDB/Redis connections, standardized `ApiResponse`/`ApiError` (M0-2, M0-6) |
-| `apps/patient` | Patient SPA — Vite 8 + React 19, Redux Toolkit + RTK Query, React Router 8, port 5173 (M0-3) |
-| `apps/admin` | Admin dashboard — same stack as patient, sidebar layout, port 5174 (M0-4) |
-| `packages/shared` (`@repo/shared`) | Shared domain types, constants, and Zod validators consumed by all three apps (M0-5) |
-| `packages/typescript-config` (`@repo/typescript-config`) | Shared TypeScript base + React app configs |
+| Package                   | Role                                                                        |
+| :------------------------ | :-------------------------------------------------------------------------- |
+| `apps/server`             | Express 5.2, `/api/v1`, MongoDB/Redis, `ApiResponse`/`ApiError`, port 5000  |
+| `apps/patient`            | Vite 8 + React 19 + RTK Query, port **5173** (`strictPort`)                 |
+| `apps/admin`              | Same stack, `AdminLayout` (sidebar + top bar), port **5174** (`strictPort`) |
+| `@repo/shared`            | Types, constants, Zod validators — build `dist` before apps import it       |
+| `@repo/typescript-config` | `base.json` (server/shared), `react-app.json` (patient/admin)               |
+| `e2e`                     | Playwright smoke specs (starts both Vite apps)                              |
 
-**Runtime:** Node.js 24 — pinned in [`.nvmrc`](.nvmrc), `engines.node >= 24` in root [`package.json`](package.json).
-
-**Package manager:** pnpm 11.22.0 — enforced via `packageManager` in root [`package.json`](package.json). Use Corepack:
-
-```bash
-corepack enable
-corepack prepare pnpm@11.22.0 --activate
-```
-
-**Source of truth:** [`docs/SRS_Doctor_Appointment_App.md`](docs/SRS_Doctor_Appointment_App.md) (requirements) and [`docs/MILESTONES.md`](docs/MILESTONES.md) (implementation order and acceptance criteria). Prefer these over inventing scope. Current milestone: **M0** (M0-1–M0-6 complete after DB/Redis wiring).
+**Runtime:** Node 24 ([`.nvmrc`](.nvmrc), `engines.node >= 24`). **pnpm 11.22.0** (`packageManager`) via Corepack.
 
 ## Commands
 
-Root scripts (from [`package.json`](package.json)):
-
 ```bash
-pnpm install          # install all workspace dependencies
-pnpm build            # turbo run build — all packages; dependsOn ^build
-pnpm dev              # turbo run dev — concurrent dev tasks
-pnpm typecheck        # turbo run typecheck
-pnpm lint             # turbo run lint (stub scripts in M0-1)
-pnpm test             # turbo run test (stub scripts in M0-1)
+pnpm install && pnpm build && pnpm typecheck
+pnpm dev                          # all workspace dev tasks
+pnpm lint                         # ESLint via Turborepo (all packages)
+pnpm lint:fix                     # ESLint --fix across workspaces
+pnpm format                       # Prettier write
+pnpm format:check                 # Prettier check
+pnpm test                         # unit + Playwright E2E
+pnpm --filter server dev          # tsx watch, port 5000
+pnpm --filter server start        # node dist/server.js
+pnpm --filter server test         # also test:coverage
+pnpm --filter patient dev         # Vite 5173 (fails if taken)
+pnpm --filter admin dev           # Vite 5174 (fails if taken)
+pnpm --filter patient test
+pnpm --filter admin test
+pnpm --filter @repo/shared build  # required before app typecheck
+pnpm --filter @repo/shared test   # node:test on dist/__tests__/
+pnpm --filter e2e test            # also test:ui
 ```
 
-Single-workspace (from [`README.md`](README.md)):
-
-```bash
-pnpm --filter server dev       # Express API on port 5000 (tsx watch)
-pnpm --filter server start     # node dist/server.js (after build)
-pnpm --filter patient dev      # Vite dev server on port 5173
-pnpm --filter admin dev        # Vite dev server on port 5174
-pnpm --filter patient preview  # vite preview (after build)
-pnpm --filter admin preview    # vite preview (after build)
-pnpm --filter @repo/shared build
-pnpm --filter e2e test           # Playwright E2E (auto-starts patient + admin dev servers)
-```
-
-`@repo/shared` must be built before apps import it, because they consume its emitted `dist/*.d.ts`. [`turbo.json`](turbo.json) encodes this: `build` and `typecheck` declare `dependsOn: ["^build"]`, and `test` declares `dependsOn: ["build"]` so a package's own output exists before its tests run. The `e2e` package overrides `test` with `dependsOn: []` and `cache: false` in [`e2e/turbo.json`](e2e/turbo.json) because it runs against Vite dev servers, not `dist/`.
+`turbo.json`: `build`/`typecheck` depend on `^build`; `test` depends on `build`. `e2e` overrides `test` to `dependsOn: []` (hits Vite, not `dist/`). Use `--filter` for unit tests only.
 
 ## Structure
 
 ```
-apps/
-  server/src/
-    config/         env.ts, db.ts (Mongoose), redis.ts (ioredis)
-    controllers/    healthCheck.controller.ts
-    routes/         index.ts — mounted at /api/v1
-    middlewares/    cors, errorHandler, rateLimit
-    utils/          apiResponse.ts, apiError.ts
-  patient/src/
-    app/            store.ts, baseApi.ts, hooks.ts (RTK Query + typed hooks)
-    components/     layout/, ui/, features/ (placeholders)
-    pages/          Home/, NotFound/
-    styles/         index.css (design tokens from mock-ui)
-  admin/src/        same layout as patient; AdminLayout with sidebar + top bar
-packages/
-  shared/src/
-    types/          user, doctor, appointment, payment, hospital, review, common
-    constants/      roles, specialties, appointmentStatus, httpStatus
-    validators/     auth.schema.ts, appointment.schema.ts (Zod 4)
-    __tests__/      node:test suites, run from dist/
-  typescript-config/ base.json, react-app.json
-e2e/                Playwright config, patient/ + admin/ specs, fixtures/, helpers/
-docs/               SRS + milestone roadmap
-mock-ui/            Static HTML mockups — reference only, not in build
+apps/server/src/    config/, controllers/, routes/, middlewares/, utils/, test/, app.ts, server.ts
+apps/patient/src/   app/, components/, pages/{Home,NotFound}/, styles/, test/
+apps/admin/src/     same + AdminLayout, pages/Dashboard/
+packages/shared/src types/, constants/, validators/, __tests__/
+e2e/                playwright.config.ts, patient/, admin/, fixtures/, helpers/
+docs/               SRS + milestones    mock-ui/  HTML reference only — not in the build
 ```
 
-**Import shared code:** prefer the subpath exports over the root barrel — `@repo/shared/types`, `@repo/shared/constants`, `@repo/shared/validators` (the root `@repo/shared` re-exports all three). Note that `@repo/shared/validators` pulls in Zod, so import it only where validation actually runs.
-
-Canonical homes, to avoid duplicate definitions: `UserRole` and `AppointmentStatus` live in `constants/` (each is both a value and a type) and are only referenced from `types/`. Domain interfaces describe JSON on the wire — IDs and dates are `string`, and shared code must never import `mongoose`, since both browser apps consume this package.
-
-**Extend TypeScript:** server and `@repo/shared` extend `@repo/typescript-config/base.json`; patient and admin extend `@repo/typescript-config/react-app.json`.
+Import `@repo/shared/types`, `/constants`, `/validators` (validators pull in Zod). `UserRole` and `AppointmentStatus` live in `constants/`; `PaymentStatus`/`PaymentMethod` in `types/payment.types.ts`. Domain IDs/dates are `string`. Shared must never import `mongoose`. Server tests: `@test/factories`, `@test/helpers`.
 
 ## Code style
 
-Observed today (M0-4):
-
-- **Language:** TypeScript 7 (`typescript` ^7.0.2), ESM (`"type": "module"` in app manifests).
-- **Strictness:** `strict: true`, `noUncheckedIndexedAccess: true` — see [`packages/typescript-config/base.json`](packages/typescript-config/base.json). React apps add `verbatimModuleSyntax: true` via [`react-app.json`](packages/typescript-config/react-app.json).
-- **Imports:** relative imports use `.js` extensions (NodeNext / bundler resolution). No `any` in current app source.
-- **Backend:** `src/` → `dist/` via `tsc`; API prefix `/api/v1`; responses use `ApiResponse`/`ApiError` classes.
-- **Frontend:** Vite build (`tsc --noEmit && vite build`); Redux store with RTK Query `baseApi` (`VITE_API_BASE_URL`, default `http://localhost:5000/api/v1`); typed hooks via `useDispatch.withTypes` / `useSelector.withTypes`.
-- **Shared package:** no TypeScript `enum` — use an `as const` object plus a same-named union type, so each name works as both a value and a type. Validation uses Zod 4 (`z.email()`, `z.enum(READONLY_ARRAY)`), with enum arrays derived from the shared constants rather than re-typed.
-- **Styling:** plain CSS with custom-property design tokens ported from `mock-ui/css/variables.css` (Inter via Google Fonts). No CSS-in-JS or component library yet.
-- **Layout:** feature folders under `src/features/` and `src/components/features/` are placeholders (`.gitkeep` only).
-- **Lint/format:** not configured yet (planned in M2-1: ESLint 9 flat config, Prettier, Husky + lint-staged per [`docs/MILESTONES.md`](docs/MILESTONES.md)).
-- **Scope:** match existing patterns; do not add dependencies or features ahead of the milestone that introduces them.
+TypeScript 7 ESM, `strict` + `noUncheckedIndexedAccess`; React apps add `verbatimModuleSyntax`. Relative imports use `.js`. No `any` in app source. ESLint 9 flat config at root (`eslint.config.js`); Prettier 3 (`.prettierrc`). Root `typescript` resolves to `@typescript/typescript6` for ESLint; workspaces use TS 7 for `tsc`. Server: `tsc` → `dist`; `.env` at repo root then `apps/server/.env`; required `MONGODB_URI`, `REDIS_URL`. Frontend: RTK Query `baseApi` (`VITE_API_BASE_URL`, default `http://localhost:5000/api/v1`). Shared: `as const` + union, not `enum`; Zod 4. Plain CSS tokens from `mock-ui/css/variables.css`. Feature folders are `.gitkeep` only. Match existing patterns.
 
 ## Testing
 
-| Area | Runner (today) | Notes |
-|:---|:---|:---|
-| `@repo/shared` | `node:test` + `node:assert/strict` | Sources in `src/__tests__/`; `pnpm test` runs the compiled copies in `dist/__tests__/` |
-| `e2e` | Playwright (`@playwright/test`) | Smoke specs in `patient/` and `admin/`; `webServer` starts both Vite apps via `pnpm --filter` (plain `pnpm` in CI, `corepack pnpm` locally); run via `pnpm --filter e2e test` |
-| `server`, `patient`, `admin` | Stub (`node --eval`) | Vitest planned in M1-1 / M1-2 |
+| Area               | Runner                                        | Notes                                 |
+| :----------------- | :-------------------------------------------- | :------------------------------------ |
+| `@repo/shared`     | `node:test`                                   | compiled `dist/__tests__/`            |
+| `server`           | Vitest 4.1.11 + Supertest + MongoMemoryServer | 70% statements / 65% branches         |
+| `patient`, `admin` | Vitest + RTL + MSW + jsdom                    | 65% statements                        |
+| `e2e`              | Playwright                                    | `corepack pnpm` locally, `pnpm` in CI |
 
-**M1 in progress:** Playwright E2E (M1-3) is configured. Vitest + Supertest + MongoDB Memory Server (`server`), Vitest + React Testing Library + MSW (`patient`, `admin`), and test factories (M1-4) are still planned. Coverage thresholds are defined in milestones (e.g. 70% statements server, 65% frontend).
+Add tests with behavior changes; do not lower coverage thresholds. Server helpers insert raw collections and sign a **test-only** JWT (replace internals in M5; keep signatures). Frontend: `test-utils.tsx` (`Provider` + `MemoryRouter`); MSW must use `ApiResponse`/`ApiError`.
 
-Root `pnpm test` runs **all** workspace `test` scripts via Turborepo, including Playwright E2E. Use `pnpm --filter <package> test` for unit tests only. CI (M2-3) will split unit and E2E into separate jobs.
+## Security & Git
 
-## Security & secrets
+Never commit `.env` / `.env.*` except `*.example`. Do not log `MONGODB_URI`, `REDIS_URL`, JWT/payment keys, or `*.pem`/`*.key`. Copy `.env.example` → `.env`; frontends use `apps/{patient,admin}/.env.example`. File storage is Cloudinary; SRS/M12-1 use Multer on `POST /api/v1/records/upload` — do not invent another path.
 
-- Never commit [`.env`](.env) or any `.env.*` except [`.env.example`](.env.example) / `*.example` variants ([`.gitignore`](.gitignore)).
-- Do not log or commit: `MONGODB_URI`, `REDIS_URL`, API keys, JWT secrets, payment keys, certificates (`*.pem`, `*.key`, etc.).
-- Copy `.env.example` → `.env` at repo root for server vars (`PORT`, `CORS_ORIGINS`, `MONGODB_URI`, `REDIS_URL`, etc.). Frontend apps use `apps/patient/.env.example` and `apps/admin/.env.example` for `VITE_*` vars.
-- Medical uploads and file storage will use direct object-storage access (Cloudinary per SRS) — do not proxy file bytes through the API when the spec says otherwise.
-
-## Git & PRs
-
-**Branch strategy** (from [`docs/MILESTONES.md`](docs/MILESTONES.md)):
-
-```
-feature/M<#>-<short-description>  →  develop  →  main
-```
-
-Example branches: `feature/M0-1-turborepo-workspaces`, `feature/M5-auth-register`.
-
-**Commits:** descriptive sentence; reference milestone/issue when applicable (e.g. `Initialize Turborepo monorepo with pnpm workspaces (M0-1).`).
-
-**PRs:** feature branches merge into `develop`; `develop` merges to `main` for production (CI/CD planned M2–M4).
-
-No Husky hooks or CI workflows exist yet. Do not force-push `main`/`develop`.
-
-**Note:** `.cursor/` is gitignored — project-level Cursor rules/skills here are local only and not shared with teammates.
+Branches: `feature/M<#>-<short-description>` → `develop` → `main`. Descriptive commits with milestone. Husky pre-commit runs lint-staged (ESLint + Prettier on staged `.ts`/`.tsx`). CI in M2-2/M2-3. Do not force-push `main`/`develop`. `.cursor/` is gitignored (local only).
 
 ## Boundaries
 
-**Always**
+**Always** — Follow milestone issue order. Use pnpm/Turbo; `pnpm typecheck` after TS changes. Build `@repo/shared` before apps import it. `mock-ui/` is reference only. Server: existing `ApiResponse`/`ApiError`. Frontend: inject RTK Query endpoints on `baseApi`.
 
-- Follow [`docs/MILESTONES.md`](docs/MILESTONES.md) issue order and acceptance criteria.
-- Use pnpm workspaces and Turborepo tasks; run `pnpm typecheck` after TypeScript changes.
-- Build `@repo/shared` before importing it in apps (or rely on `pnpm build` at root).
-- Treat `mock-ui/` as UI reference only — do not wire it into the monorepo build.
-- Use existing API response/error utilities on the server; extend RTK Query via `baseApi` inject endpoints on the frontend.
+**Ask first** — New deps, schema/CI/Docker/deploy, workspace layout, broad refactors, later-milestone features, committing `dist/`/`coverage/`/`.turbo/`.
 
-**Ask first**
-
-- Adding dependencies not specified in the current milestone issue.
-- Schema/database migrations, CI/Docker/deploy config, or workspace layout changes.
-- Broad refactors, swapping build tooling, or implementing features from a later milestone.
-- Committing generated artifacts (`dist/`, `coverage/`, `.turbo/`) — all gitignored.
-
-**Never**
-
-- Commit secrets, `.env` files, or credentials.
-- Rewrite git history on shared branches without explicit user request.
-- Contradict the SRS or milestones without flagging the conflict to the user.
+**Never** — Commit secrets. Rewrite git history on shared branches. Contradict the SRS or milestones without flagging it.

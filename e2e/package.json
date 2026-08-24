@@ -10,13 +10,14 @@
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
-    "lint": "node --eval \"console.log('lint stub')\"",
+    "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^26.2.0",
+    "eslint": "^9.39.5",
     "typescript": "^7.0.2"
   }
 }

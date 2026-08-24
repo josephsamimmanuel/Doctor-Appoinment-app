@@ -44,8 +44,10 @@ pnpm dev
 # Type-check all packages
 pnpm typecheck
 
-# Lint (stub scripts until M2-1) and test (unit + E2E via Turborepo)
+# Lint, format, and test (unit + E2E via Turborepo)
 pnpm lint
+pnpm lint:fix
+pnpm format:check
 pnpm test
 ```
 
@@ -158,13 +160,13 @@ Requires `pnpm` on your PATH (enable via `corepack enable` in Prerequisites), or
 
 Copy [`.env.example`](.env.example) to `.env` at the repo root and adjust values for local development.
 
-| Variable | Required | Description |
-|:---|:---|:---|
-| `NODE_ENV` | No | `development` (default), `production`, or `test` |
-| `PORT` | No | HTTP port for the API (default `5000`) |
-| `CORS_ORIGINS` | No | Comma-separated allowed origins (defaults to patient and admin dev URLs) |
-| `MONGODB_URI` | Yes | MongoDB connection string for Mongoose |
-| `REDIS_URL` | Yes | Redis connection URL for ioredis |
+| Variable       | Required | Description                                                              |
+| :------------- | :------- | :----------------------------------------------------------------------- |
+| `NODE_ENV`     | No       | `development` (default), `production`, or `test`                         |
+| `PORT`         | No       | HTTP port for the API (default `5000`)                                   |
+| `CORS_ORIGINS` | No       | Comma-separated allowed origins (defaults to patient and admin dev URLs) |
+| `MONGODB_URI`  | Yes      | MongoDB connection string for Mongoose                                   |
+| `REDIS_URL`    | Yes      | Redis connection URL for ioredis                                         |
 
 Frontend apps use `apps/patient/.env.example` and `apps/admin/.env.example` for `VITE_*` variables.
 

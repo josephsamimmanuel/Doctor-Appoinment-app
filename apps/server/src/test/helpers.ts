@@ -1,7 +1,9 @@
 import { faker } from '@faker-js/faker';
+import supertest from 'supertest';
+
 import { UserRole } from '@repo/shared/constants';
 import type { IUser } from '@repo/shared/types';
-import supertest from 'supertest';
+
 import app from '../app.js';
 
 export type TestUserData = Pick<

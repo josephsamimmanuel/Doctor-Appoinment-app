@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 import { env } from './env.js';
 
 export type ConnectionStatus = 'connected' | 'disconnected';
