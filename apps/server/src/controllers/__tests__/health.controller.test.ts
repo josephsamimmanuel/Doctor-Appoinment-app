@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createRequest } from '../../test/helpers.js';
+import { createRequest } from '@test/helpers';
 
 describe('GET /api/v1/health', () => {
   it('returns 200 with the expected ApiResponse structure', async () => {
