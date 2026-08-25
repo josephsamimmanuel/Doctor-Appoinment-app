@@ -22,4 +22,16 @@ describe('GET /api/v1/health', () => {
     expect(Number.isNaN(Date.parse(response.body.data.timestamp))).toBe(false);
     expect(response.body.data.uptime).toBeGreaterThanOrEqual(0);
   });
+
+  it('returns 404 for unknown routes', async () => {
+    const response = await createRequest().get('/api/v1/unknown-route').expect(404);
+
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        success: false,
+        statusCode: 404,
+        message: 'Route not found: GET /api/v1/unknown-route',
+      }),
+    );
+  });
 });
