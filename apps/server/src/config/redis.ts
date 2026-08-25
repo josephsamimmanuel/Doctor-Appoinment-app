@@ -69,10 +69,6 @@ export async function disconnectRedis(): Promise<void> {
     redis.disconnect();
   }
 
-  if (redis.status === 'end' || redis.status === 'close') {
-    return;
-  }
-
   await new Promise<void>((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error('Redis close timed out')), QUIT_TIMEOUT_MS);
 
@@ -83,7 +79,8 @@ export async function disconnectRedis(): Promise<void> {
       resolve();
     };
 
-    if (redis.status === 'end' || redis.status === 'close') {
+    const status = redis.status as string;
+    if (status === 'end' || status === 'close') {
       finish();
       return;
     }
