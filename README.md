@@ -1,5 +1,7 @@
 # Doctor Appointment Booking System
 
+[![CI](https://github.com/josephsamimmanuel/Doctor-Appoinment-app/actions/workflows/ci.yml/badge.svg)](https://github.com/josephsamimmanuel/Doctor-Appoinment-app/actions/workflows/ci.yml)
+
 A monorepo for the Doctor Appointment Booking System — patient app, admin dashboard, and backend API.
 
 ## Prerequisites
@@ -169,6 +171,16 @@ Copy [`.env.example`](.env.example) to `.env` at the repo root and adjust values
 | `REDIS_URL`    | Yes      | Redis connection URL for ioredis                                         |
 
 Frontend apps use `apps/patient/.env.example` and `apps/admin/.env.example` for `VITE_*` variables.
+
+## Branch Protection
+
+The following branch protection rules should be configured on GitHub:
+
+- **`main`** and **`develop`**: require the **CI workflow** to pass before merging (`lint-typecheck`, `unit-tests`, and `e2e-tests` jobs)
+- **`main`** and **`develop`**: require at least one PR review approval before merging
+- Direct pushes to `main` are not permitted; all changes go through `develop` first
+
+To configure: _Settings → Branches → Branch protection rules_ on the GitHub repository.
 
 ## Milestones
 
