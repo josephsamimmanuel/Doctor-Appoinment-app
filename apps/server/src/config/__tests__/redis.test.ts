@@ -7,7 +7,7 @@ describe('redis config', () => {
     expect(getRedisStatus()).toBe('disconnected');
   });
 
-  it('connects to redis when the service is reachable', async () => {
+  it('connects and disconnects cleanly when redis is reachable', async () => {
     if (process.env.CI !== 'true') {
       await expect(connectRedis()).rejects.toThrow();
       expect(getRedisStatus()).toBe('disconnected');
@@ -16,9 +16,7 @@ describe('redis config', () => {
 
     await expect(connectRedis()).resolves.toBeUndefined();
     expect(getRedisStatus()).toBe('connected');
-  });
 
-  it('disconnects cleanly and skips repeat disconnects', async () => {
     await disconnectRedis();
     expect(getRedisStatus()).toBe('disconnected');
 
