@@ -1,5 +1,5 @@
 import type { Specialization } from '../constants/specialties.js';
-import type { DayOfWeek, ObjectIdString, Timestamps, TimeRange } from './common.types.js';
+import type { DayOfWeek, ObjectIdString, TimeRange, Timestamps } from './common.types.js';
 
 export interface IQualification {
   degree: string;

@@ -1,6 +1,7 @@
-import { config } from 'dotenv';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { config } from 'dotenv';
 
 const currentDir = fileURLToPath(new URL('.', import.meta.url));
 const serverRoot = resolve(currentDir, '../..');
@@ -9,10 +10,7 @@ const repoRoot = resolve(serverRoot, '../..');
 config({ path: resolve(repoRoot, '.env') });
 config({ path: resolve(serverRoot, '.env'), override: true });
 
-const DEFAULT_CORS_ORIGINS = [
-  'http://localhost:5173',
-  'http://localhost:5174',
-];
+const DEFAULT_CORS_ORIGINS = ['http://localhost:5173', 'http://localhost:5174'];
 
 function requireEnv(key: string): string {
   const value = process.env[key];

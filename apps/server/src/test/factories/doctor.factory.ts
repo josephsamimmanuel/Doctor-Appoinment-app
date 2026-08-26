@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+
 import { SPECIALTIES } from '@repo/shared/constants';
 import type { DayOfWeek, IDoctor } from '@repo/shared/types';
 

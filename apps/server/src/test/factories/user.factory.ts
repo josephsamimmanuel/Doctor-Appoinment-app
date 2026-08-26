@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+
 import { UserRole } from '@repo/shared/constants';
 import type { IUser } from '@repo/shared/types';
 import type { RegisterInput } from '@repo/shared/validators';

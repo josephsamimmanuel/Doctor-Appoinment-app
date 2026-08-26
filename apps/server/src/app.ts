@@ -1,6 +1,7 @@
 import express, { type Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
+
 import { env } from './config/env.js';
 import { corsMiddleware } from './middlewares/cors.middleware.js';
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.middleware.js';

@@ -1,8 +1,8 @@
-import type { ApiError, ApiResponse } from '@repo/shared/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const baseUrl =
-  import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5000/api/v1';
+import type { ApiError, ApiResponse } from '@repo/shared/types';
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5000/api/v1';
 
 /** Strips the server's success envelope so endpoints expose `data` directly. */
 export function unwrapApiData<TData>(response: ApiResponse<TData>): TData {

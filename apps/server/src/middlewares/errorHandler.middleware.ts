@@ -1,15 +1,12 @@
-import { HTTP_STATUS } from '@repo/shared/constants';
 import type { NextFunction, Request, Response } from 'express';
+
+import { HTTP_STATUS } from '@repo/shared/constants';
+
 import { env } from '../config/env.js';
 import { ApiError } from '../utils/apiError.js';
 
 export function notFoundHandler(req: Request, _res: Response, next: NextFunction): void {
-  next(
-    new ApiError(
-      HTTP_STATUS.NOT_FOUND,
-      `Route not found: ${req.method} ${req.originalUrl}`,
-    ),
-  );
+  next(new ApiError(HTTP_STATUS.NOT_FOUND, `Route not found: ${req.method} ${req.originalUrl}`));
 }
 
 export function errorHandler(

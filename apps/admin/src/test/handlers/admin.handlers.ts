@@ -1,6 +1,7 @@
+import { http } from 'msw';
+
 import { AppointmentStatus } from '@repo/shared/constants';
 import { AppointmentMode, BookingType, VisitType } from '@repo/shared/types';
-import { http } from 'msw';
 
 import { apiBaseUrl, successResponse } from './http.js';
 

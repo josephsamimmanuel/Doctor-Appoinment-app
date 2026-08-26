@@ -5,12 +5,8 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   resolve: {
     alias: {
-      '@test/factories': fileURLToPath(
-        new URL('./src/test/factories/index.ts', import.meta.url),
-      ),
-      '@test/helpers': fileURLToPath(
-        new URL('./src/test/helpers.ts', import.meta.url),
-      ),
+      '@test/factories': fileURLToPath(new URL('./src/test/factories/index.ts', import.meta.url)),
+      '@test/helpers': fileURLToPath(new URL('./src/test/helpers.ts', import.meta.url)),
     },
   },
   test: {
@@ -19,6 +15,8 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/**/*.test.ts'],
     testTimeout: 60_000,
+    hookTimeout: 120_000,
+    fileParallelism: false,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
@@ -27,11 +25,7 @@ export default defineConfig({
         statements: 70,
         branches: 65,
       },
-      exclude: [
-        'src/test/**',
-        'src/**/*.test.ts',
-        'src/server.ts',
-      ],
+      exclude: ['src/test/**', 'src/**/*.test.ts', 'src/server.ts'],
     },
   },
 });

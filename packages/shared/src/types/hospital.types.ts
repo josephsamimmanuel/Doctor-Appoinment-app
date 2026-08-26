@@ -2,8 +2,8 @@ import type {
   DayOfWeek,
   IsoDateString,
   ObjectIdString,
-  Timestamps,
   TimeRange,
+  Timestamps,
 } from './common.types.js';
 import type { IAddress } from './user.types.js';
 

@@ -1,14 +1,21 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
+
 import type { ZodError } from 'zod';
-import {
-  bookAppointmentSchema,
-  loginSchema,
-  registerSchema,
-} from '../validators/index.js';
+
+import { bookAppointmentSchema, loginSchema, registerSchema } from '../validators/index.js';
 
 function messagesOf(error: ZodError): string[] {
   return error.issues.map((issue) => issue.message);
+}
+
+function assertParseFailure<T>(result: { success: boolean; error?: ZodError; data?: T }): ZodError {
+  assert.equal(result.success, false);
+  if (result.success || result.error === undefined) {
+    assert.fail('Expected parse to fail');
+  }
+
+  return result.error;
 }
 
 const validRegistration = {
@@ -38,14 +45,18 @@ describe('registerSchema', () => {
     const result = registerSchema.safeParse({ ...validRegistration, email: 'not-an-email' });
 
     assert.equal(result.success, false);
-    assert.ok(messagesOf(result.error!).includes('Enter a valid email address'));
+    assert.ok(messagesOf(assertParseFailure(result)).includes('Enter a valid email address'));
   });
 
   it('rejects a password shorter than 8 characters', () => {
     const result = registerSchema.safeParse({ ...validRegistration, password: 'Ab1' });
 
     assert.equal(result.success, false);
-    assert.ok(messagesOf(result.error!).includes('Password must be at least 8 characters long'));
+    assert.ok(
+      messagesOf(assertParseFailure(result)).includes(
+        'Password must be at least 8 characters long',
+      ),
+    );
   });
 
   it('rejects a password without an uppercase letter', () => {
@@ -53,7 +64,9 @@ describe('registerSchema', () => {
 
     assert.equal(result.success, false);
     assert.ok(
-      messagesOf(result.error!).includes('Password must contain at least one uppercase letter'),
+      messagesOf(assertParseFailure(result)).includes(
+        'Password must contain at least one uppercase letter',
+      ),
     );
   });
 
@@ -61,7 +74,9 @@ describe('registerSchema', () => {
     const result = registerSchema.safeParse({ ...validRegistration, password: 'StrongPass' });
 
     assert.equal(result.success, false);
-    assert.ok(messagesOf(result.error!).includes('Password must contain at least one number'));
+    assert.ok(
+      messagesOf(assertParseFailure(result)).includes('Password must contain at least one number'),
+    );
   });
 
   it('rejects a phone number that is not a 10-digit Indian mobile', () => {
@@ -69,7 +84,9 @@ describe('registerSchema', () => {
 
     assert.equal(result.success, false);
     assert.ok(
-      messagesOf(result.error!).includes('Enter a valid 10-digit Indian mobile number'),
+      messagesOf(assertParseFailure(result)).includes(
+        'Enter a valid 10-digit Indian mobile number',
+      ),
     );
   });
 
@@ -98,7 +115,7 @@ describe('loginSchema', () => {
     const result = loginSchema.safeParse({ email: 'asha@example.com', password: '' });
 
     assert.equal(result.success, false);
-    assert.ok(messagesOf(result.error!).includes('Password is required'));
+    assert.ok(messagesOf(assertParseFailure(result)).includes('Password is required'));
   });
 
   it('does not enforce registration password strength on login', () => {
@@ -139,13 +156,13 @@ describe('bookAppointmentSchema', () => {
     const result = bookAppointmentSchema.safeParse({ ...validBooking, date: '01-09-2026' });
 
     assert.equal(result.success, false);
-    assert.ok(messagesOf(result.error!).includes('Date must be in YYYY-MM-DD format'));
+    assert.ok(messagesOf(assertParseFailure(result)).includes('Date must be in YYYY-MM-DD format'));
   });
 
   it('rejects a time slot outside the 24-hour clock', () => {
     const result = bookAppointmentSchema.safeParse({ ...validBooking, timeSlot: '25:00' });
 
     assert.equal(result.success, false);
-    assert.ok(messagesOf(result.error!).includes('Time slot must be in HH:mm format'));
+    assert.ok(messagesOf(assertParseFailure(result)).includes('Time slot must be in HH:mm format'));
   });
 });

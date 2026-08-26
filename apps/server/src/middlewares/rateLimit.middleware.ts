@@ -1,5 +1,6 @@
-import rateLimit from 'express-rate-limit';
 import type { Request, Response } from 'express';
+import rateLimit from 'express-rate-limit';
+
 import { ApiError } from '../utils/apiError.js';
 
 export const rateLimitMiddleware = rateLimit({

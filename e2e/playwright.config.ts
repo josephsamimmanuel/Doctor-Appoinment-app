@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const isCI = !!process.env.CI;
-// CI (pnpm/action-setup) has `pnpm` on PATH; locally use corepack when pnpm is not shimmed.
+// CI (pnpm/setup) has `pnpm` on PATH; locally use corepack when pnpm is not shimmed.
 const pnpm = isCI ? 'pnpm' : 'corepack pnpm';
 
 export default defineConfig({

@@ -12,8 +12,6 @@ describe('App', () => {
   it('renders the dashboard page heading', () => {
     renderWithProviders(<App />);
 
-    expect(
-      screen.getByRole('heading', { name: 'Dashboard' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Dashboard' })).toBeInTheDocument();
   });
 });

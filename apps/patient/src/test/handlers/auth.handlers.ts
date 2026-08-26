@@ -1,6 +1,7 @@
+import { http } from 'msw';
+
 import { UserRole } from '@repo/shared/constants';
 import type { IUser } from '@repo/shared/types';
-import { http } from 'msw';
 
 import { apiBaseUrl, errorResponse, extractBearerToken, successResponse } from './http.js';
 

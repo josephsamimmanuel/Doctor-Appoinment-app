@@ -3,8 +3,8 @@ process.env.MONGODB_URI ??= 'mongodb://127.0.0.1:27017/test';
 process.env.REDIS_URL ??= 'redis://127.0.0.1:6379';
 process.env.JWT_SECRET ??= 'test-jwt-secret';
 
-import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import mongoose from 'mongoose';
 import { afterAll, beforeAll, beforeEach } from 'vitest';
 
 let mongoMemoryServer: MongoMemoryServer | undefined;
@@ -21,9 +21,7 @@ beforeAll(async () => {
 beforeEach(async () => {
   const collections = mongoose.connection.collections;
 
-  await Promise.all(
-    Object.values(collections).map((collection) => collection.deleteMany({})),
-  );
+  await Promise.all(Object.values(collections).map((collection) => collection.deleteMany({})));
 });
 
 afterAll(async () => {

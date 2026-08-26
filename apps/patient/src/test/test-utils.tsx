@@ -11,13 +11,7 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   route?: string;
 }
 
-function AllProviders({
-  children,
-  route = '/',
-}: {
-  children: ReactNode;
-  route?: string;
-}) {
+function AllProviders({ children, route = '/' }: { children: ReactNode; route?: string }) {
   return (
     <Provider store={store}>
       <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
@@ -29,9 +23,7 @@ export function render(ui: ReactElement, options: CustomRenderOptions = {}) {
   const { route, ...renderOptions } = options;
 
   return rtlRender(ui, {
-    wrapper: ({ children }) => (
-      <AllProviders route={route}>{children}</AllProviders>
-    ),
+    wrapper: ({ children }) => <AllProviders route={route}>{children}</AllProviders>,
     ...renderOptions,
   });
 }

@@ -1,5 +1,7 @@
 # Doctor Appointment Booking System
 
+[![CI](https://github.com/josephsamimmanuel/Doctor-Appoinment-app/actions/workflows/ci.yml/badge.svg)](https://github.com/josephsamimmanuel/Doctor-Appoinment-app/actions/workflows/ci.yml)
+
 A monorepo for the Doctor Appointment Booking System — patient app, admin dashboard, and backend API.
 
 ## Prerequisites
@@ -44,8 +46,10 @@ pnpm dev
 # Type-check all packages
 pnpm typecheck
 
-# Lint (stub scripts until M2-1) and test (unit + E2E via Turborepo)
+# Lint, format, and test (unit + E2E via Turborepo)
 pnpm lint
+pnpm lint:fix
+pnpm format:check
 pnpm test
 ```
 
@@ -158,15 +162,25 @@ Requires `pnpm` on your PATH (enable via `corepack enable` in Prerequisites), or
 
 Copy [`.env.example`](.env.example) to `.env` at the repo root and adjust values for local development.
 
-| Variable | Required | Description |
-|:---|:---|:---|
-| `NODE_ENV` | No | `development` (default), `production`, or `test` |
-| `PORT` | No | HTTP port for the API (default `5000`) |
-| `CORS_ORIGINS` | No | Comma-separated allowed origins (defaults to patient and admin dev URLs) |
-| `MONGODB_URI` | Yes | MongoDB connection string for Mongoose |
-| `REDIS_URL` | Yes | Redis connection URL for ioredis |
+| Variable       | Required | Description                                                              |
+| :------------- | :------- | :----------------------------------------------------------------------- |
+| `NODE_ENV`     | No       | `development` (default), `production`, or `test`                         |
+| `PORT`         | No       | HTTP port for the API (default `5000`)                                   |
+| `CORS_ORIGINS` | No       | Comma-separated allowed origins (defaults to patient and admin dev URLs) |
+| `MONGODB_URI`  | Yes      | MongoDB connection string for Mongoose                                   |
+| `REDIS_URL`    | Yes      | Redis connection URL for ioredis                                         |
 
 Frontend apps use `apps/patient/.env.example` and `apps/admin/.env.example` for `VITE_*` variables.
+
+## Branch Protection
+
+The following branch protection rules should be configured on GitHub:
+
+- **`main`** and **`develop`**: require the **CI workflow** to pass before merging (`lint-typecheck`, `unit-tests`, and `e2e-tests` jobs)
+- **`main`** and **`develop`**: require at least one PR review approval before merging
+- Direct pushes to `main` are not permitted; all changes go through `develop` first
+
+To configure: _Settings → Branches → Branch protection rules_ on the GitHub repository.
 
 ## Milestones
 
